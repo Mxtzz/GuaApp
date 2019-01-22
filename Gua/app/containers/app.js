@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+    Text
 } from 'react-native';
 
 import { createIconSetFromIcoMoon } from 'react-native-vector-icons';
@@ -79,6 +80,18 @@ const TabPage = createBottomTabNavigator(
                     iconName = focused ? 'baffled':'baffled';
                 }
                 return <_Icon name={iconName} size={25} color={tintColor} />;
+            },
+            tabBarLabel: ({ focused, tintColor }) => {
+                const { routeName } = navigation.state;
+                let tabName;
+                if (routeName === 'Home') {
+                    tabName = '首页';
+                } else if (routeName === 'Hot') {
+                    tabName = '热门';
+                }else if(routeName === 'User'){
+                    tabName = '我';
+                }
+                return <Text style={{ color: tintColor, fontSize: 12 }}>{tabName}</Text>;
             },
         }),
         tabBarOptions: {
