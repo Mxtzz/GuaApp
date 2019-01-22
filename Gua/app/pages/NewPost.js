@@ -13,9 +13,18 @@ class NewPost extends Component {
         super(props);
     }
 
+    static navigationOptions = {
+        headerTitle: '新鲜的瓜',
+        headerBackTitle: '取消',
+        // headerStyle: {
+        //     backgroundColor: '#333'
+        // },
+        // headerTintColor: '#FFEECC',
+    };
+
     render() {
         return (
-            <View style={{ flex: 1, backgroundColor: 'tomato' }}>
+            <View style={{ flex: 1, backgroundColor: '#EEEEEE' }}>
                 <Text>NewPost</Text>
             </View>
 

@@ -18,6 +18,10 @@ import { Splash } from '../pages/splash';
 import Home from '../pages/HomePages/home';
 import NewPost from '../pages/NewPost';
 
+import Hot from '../pages/HotPages/hot';
+
+import User from '../pages/UserPages/user';
+
 const HomeStack = createStackNavigator(
     {
         Home: {
@@ -29,33 +33,60 @@ const HomeStack = createStackNavigator(
     }
 );
 
+const HotStack = createStackNavigator(
+    {
+        Hot: {
+            screen: Hot,
+        }
+    },
+    {
+        initialRouteName: 'Hot'
+    }
+);
+
+const UserStack = createStackNavigator(
+    {
+        User: {
+            screen: User,
+        }
+    },
+    {
+        initialRouteName: 'User'
+    }
+);
+
 const TabPage = createBottomTabNavigator(
     {
         Home: { 
             screen: HomeStack,
         },
-        Hot: HomeStack,
-        User: HomeStack,
+        Hot: {
+            screen: HotStack
+        },
+        User: {
+            screen: UserStack
+        }
     },{
-        navigationOptions: ({ navigation }) => ({
+        defaultNavigationOptions: ({ navigation }) => ({
             tabBarIcon: ({ focused, tintColor }) => {
                 const { routeName } = navigation.state;
                 let iconName;
                 if (routeName === 'Home') {
-                    iconName = 'home'
+                    iconName = focused ? 'home':'home';
                 } else if (routeName === 'Hot') {
-                    iconName = 'heart'
+                    iconName = focused ? 'heart':'heart';
                 }else if(routeName === 'User'){
-                    iconName = 'baffled'
+                    iconName = focused ? 'baffled':'baffled';
                 }
                 return <_Icon name={iconName} size={25} color={tintColor} />;
             },
         }),
         tabBarOptions: {
+            showIcon: true,
             activeTintColor: 'tomato',
-            inactiveTintColor: 'gray',
+            inactiveTintColor: '#000000',
             tabStyle: {
-                backgroundColor: '#FFEECC'
+                backgroundColor: '#FFFFFF'
             },
         },
     }
