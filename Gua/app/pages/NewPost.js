@@ -65,7 +65,7 @@ class NewPost extends Component {
                     <Button
                         icon={
                             <_Icon
-                                name='pen'
+                                name='image1'
                                 size={28}
                                 color='#FFEECC'
                             />
@@ -77,7 +77,7 @@ class NewPost extends Component {
                     <Button
                         icon={
                             <_Icon
-                                name='pen'
+                                name='camera1'
                                 size={28}
                                 color='#FFEECC'
                             />
@@ -89,7 +89,7 @@ class NewPost extends Component {
                     <Button
                         icon={
                             <_Icon
-                                name='pen'
+                                name='hash'
                                 size={28}
                                 color='#FFEECC'
                             />
@@ -101,7 +101,7 @@ class NewPost extends Component {
                     <Button
                         icon={
                             <_Icon
-                                name='pen'
+                                name='map-pin'
                                 size={28}
                                 color='#FFEECC'
                             />
@@ -113,7 +113,7 @@ class NewPost extends Component {
                     <Button
                         icon={
                             <_Icon
-                                name='pen'
+                                name='at-sign'
                                 size={28}
                                 color='#FFEECC'
                             />
