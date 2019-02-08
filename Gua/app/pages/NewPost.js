@@ -12,6 +12,8 @@ import {
 import { Button } from 'react-native-elements';
 import { createIconSetFromIcoMoon } from 'react-native-vector-icons';
 import icoMoonConfig from '../../selection.json';
+import ImagePicker from 'react-native-image-picker';
+
 const _Icon = createIconSetFromIcoMoon(icoMoonConfig);
 const { width, height } = Dimensions.get('window');
 
@@ -19,7 +21,9 @@ class NewPost extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            input: ''
+            input: '',
+            avatarSource: null,
+            videoSource: null
         }
     }
 
@@ -29,12 +33,12 @@ class NewPost extends Component {
         headerRightContainerStyle: {
             paddingRight: 10,
         },
-        // headerStyle: {
-        //     backgroundColor: '#333'
-        // },
-        // headerTintColor: '#FFEECC',
+        headerStyle: {
+            // backgroundColor: '#aaa'
+        },
+        headerTintColor: '#333',
         headerBackTitleStyle: {
-            color: '#000'
+            color: '#333'
         },
         headerRight: (
             <Button
@@ -47,6 +51,93 @@ class NewPost extends Component {
             />
         ),
     };
+
+    launchCamera() {
+        // const options = {
+        //     title: '选择图片',
+        //     cancelButtonTitle: '取消',
+        //     takePhotoButtonTitle: '拍照',
+        //     chooseFromLibraryButtonTitle: '选择照片',
+        //     customButtons: [
+        //         { name: 'fb', title: 'Choose Photo from Facebook' },
+        //     ],
+        //     cameraType: 'back',
+        //     mediaType: 'photo',
+        //     videoQuality: 'high',
+        //     durationLimit: 10,
+        //     maxWidth: 300,
+        //     maxHeight: 300,
+        //     quality: 0.8,
+        //     angle: 0,
+        //     allowsEditing: false,
+        //     noData: false,
+        //     storageOptions: {
+        //         skipBackup: true
+        //     }
+        // };
+
+        const options = {
+            title: 'Select Avatar',
+            customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+            storageOptions: {
+                skipBackup: true,
+                path: 'images',
+            },
+        };
+        ImagePicker.launchCamera(options, (response) => {
+            console.log('Response = ', response);
+
+            if (response.didCancel) {
+                console.log('User cancelled photo picker');
+            }
+            else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            }
+            else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            }
+            else {
+                let source = { uri: response.uri };
+
+                // You can also display the image using data:
+                // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+                this.setState({
+                    avatarSource: source
+                });
+            }
+        })
+    }
+
+    launchImageLibrary() {
+        const options = {
+            title: 'Select Avatar',
+            customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+            storageOptions: {
+                skipBackup: true,
+                path: 'images',
+            },
+        };
+        ImagePicker.launchCamera(options, (response) => {
+            console.log('Response = ', response);
+
+            if (response.didCancel) {
+                console.log('User cancelled photo picker');
+            }
+            else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            }
+            else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            }
+            else {
+                let source = { uri: response.uri };
+                this.setState({
+                    avatarSource: source
+                });
+            }
+        })
+    }
 
     render() {
         return (
@@ -65,21 +156,9 @@ class NewPost extends Component {
                     <Button
                         icon={
                             <_Icon
-                                name='image1'
+                                name='at-sign'
                                 size={28}
-                                color='#FFEECC'
-                            />
-                        }
-                        title=''
-                        type='clear'
-                        onPress={() => alert('This is a button!')}
-                    />
-                    <Button
-                        icon={
-                            <_Icon
-                                name='camera1'
-                                size={28}
-                                color='#FFEECC'
+                                color='#aaa'
                             />
                         }
                         title=''
@@ -91,43 +170,43 @@ class NewPost extends Component {
                             <_Icon
                                 name='hash'
                                 size={28}
-                                color='#FFEECC'
+                                color='#aaa'
                             />
                         }
                         title=''
                         type='clear'
                         onPress={() => alert('This is a button!')}
+                    />
+                    <Button
+                        icon={
+                            <_Icon
+                                name='camera1'
+                                size={28}
+                                color='#aaa'
+                            />
+                        }
+                        title=''
+                        type='clear'
+                        onPress={this.launchCamera.bind(this)}
+                    />
+                    <Button
+                        icon={
+                            <_Icon
+                                name='image1'
+                                size={28}
+                                color='#aaa'
+                            />
+                        }
+                        title=''
+                        type='clear'
+                        onPress={this.launchImageLibrary.bind(this)}
                     />
                     <Button
                         icon={
                             <_Icon
                                 name='map-pin'
                                 size={28}
-                                color='#FFEECC'
-                            />
-                        }
-                        title=''
-                        type='clear'
-                        onPress={() => alert('This is a button!')}
-                    />
-                    <Button
-                        icon={
-                            <_Icon
-                                name='at-sign'
-                                size={28}
-                                color='#FFEECC'
-                            />
-                        }
-                        title=''
-                        type='clear'
-                        onPress={() => alert('This is a button!')}
-                    />
-                    <Button
-                        icon={
-                            <_Icon
-                                name='pen'
-                                size={28}
-                                color='#FFEECC'
+                                color='#aaa'
                             />
                         }
                         title=''

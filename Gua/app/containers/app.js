@@ -91,7 +91,7 @@ const TabPage = createBottomTabNavigator(
                 }else if(routeName === 'User'){
                     tabName = '我';
                 }
-                return <Text style={{ color: tintColor, fontSize: 12 }}>{tabName}</Text>;
+                return <Text style={{ color: tintColor, fontSize: 12, textAlign: 'center' }}>{tabName}</Text>;
             },
         }),
         tabBarOptions: {

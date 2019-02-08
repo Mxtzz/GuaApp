@@ -6,9 +6,11 @@ import {
     TouchableOpacity,
     Platform,
     TouchableHighlight,
-    Dimensions
+    Dimensions,
+    Image
 } from 'react-native';
 
+import { ListItem } from 'react-native-elements';
 import { createIconSetFromIcoMoon } from 'react-native-vector-icons';
 import icoMoonConfig from '../../../selection.json';
 const _Icon = createIconSetFromIcoMoon(icoMoonConfig);
@@ -31,7 +33,34 @@ class User extends Component {
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: '#EEEEEE' }}>
-                <Text>Home</Text>
+                <View style={styles.userInfo}>
+                    <Image
+                        style={{ width: 80, height: 80, borderRadius: 40 }}
+                        source={require('../../img/header.png')}
+                    />
+                    <Text style={{ padding: 8, fontSize: 18, fontWeight: '600' }}>User</Text>
+                    <Text style={{ color: '#666' }}>签名</Text>
+                </View>
+                <View style={styles.userFriends}>
+                    <View style={styles.userFriendsBlock}>
+                        <Text style={{ textAlign: 'center' }}>瓜</Text>
+                        <Text style={{ textAlign: 'center', paddingTop: 8 }}>666</Text>
+                    </View>
+                    <View style={styles.userFriendsBlock}>
+                        <Text style={{ textAlign: 'center' }}>瓜</Text>
+                        <Text style={{ textAlign: 'center', paddingTop: 8 }}>666</Text>
+                    </View>
+                    <View style={styles.userFriendsBlock}>
+                        <Text style={{ textAlign: 'center' }}>瓜</Text>
+                        <Text style={{ textAlign: 'center', paddingTop: 8 }}>666</Text>
+                    </View>
+                </View>
+                <View style={styles.settings}>
+                    <ListItem
+                        title="手机号码"
+                        // leftAvatar={{ source: { uri: item.avatar_url } }}
+                    />
+                </View>
                 
             </View>
             
@@ -55,6 +84,24 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
+    userInfo: {
+        alignItems: 'center',
+        flexDirection: 'column',
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
+        paddingVertical: 8,
+    },
+    userFriends: {
+        paddingVertical: 8,
+        paddingHorizontal: 26,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
+    },
+    userFriendsBlock: {
+
+    }
 });
 
 export default User;
