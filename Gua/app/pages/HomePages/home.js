@@ -9,6 +9,7 @@ import {
     Dimensions
 } from 'react-native';
 
+import { Button } from 'react-native-elements';
 import { createIconSetFromIcoMoon } from 'react-native-vector-icons';
 import icoMoonConfig from '../../../selection.json';
 const _Icon = createIconSetFromIcoMoon(icoMoonConfig);
@@ -33,8 +34,8 @@ class Home extends Component {
             <View style={{ flex: 1, backgroundColor: '#EEEEEE' }}>
                 <Text>Home</Text>
                 <View style={{ flex: 1 }}>
-                    <View style={styles.addMemo}>
-                        <TouchableHighlight
+                    <View style={styles.addMemoContainer}>
+                        {/* <TouchableHighlight
                             onPress={() => { this.props.navigation.navigate('NewPost') }}
                         >
                             <_Icon
@@ -42,7 +43,19 @@ class Home extends Component {
                                 size={28}
                                 color='#FFEECC'
                             />
-                        </TouchableHighlight>
+                        </TouchableHighlight> */}
+                        <Button
+                            icon={
+                                <_Icon
+                                    name='pen'
+                                    size={28}
+                                    color='#FFEECC'
+                                />
+                            }
+                            title=''
+                            buttonStyle={styles.addMemo}
+                            onPress={() => { this.props.navigation.navigate('NewPost') }}
+                        />
                     </View>
                 </View>
             </View>
@@ -52,8 +65,17 @@ class Home extends Component {
 }
 
 const styles = StyleSheet.create({
+    addMemoContainer: {
+        position: 'absolute',
+        width: 46,
+        height: 46,
+        bottom: 20,
+        right: 8,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     addMemo: {
-        position:'absolute',
+        // position: 'absolute',
         width: 46,
         height: 46,
         borderRadius: 46,
@@ -62,8 +84,6 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.5,
         backgroundColor: 'tomato',
-        bottom: 20,
-        right: 8,
         alignItems: 'center',
         justifyContent: 'center'
     },
