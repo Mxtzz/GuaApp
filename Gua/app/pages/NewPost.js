@@ -34,7 +34,7 @@ class NewPost extends Component {
             paddingRight: 10,
         },
         headerStyle: {
-            // backgroundColor: '#aaa'
+            // backgroundColor: '#eee'
         },
         headerTintColor: '#333',
         headerBackTitleStyle: {
@@ -43,9 +43,6 @@ class NewPost extends Component {
         headerRight: (
             <Button
                 title='发送'
-                buttonStyle={
-                    backgroundColor = '#FFEECC'
-                }
                 type='outline'
                 onPress={() => alert('This is a button!')}
             />
@@ -141,7 +138,7 @@ class NewPost extends Component {
 
     render() {
         return (
-            <View style={{ flex: 1, backgroundColor: '#EEEEEE' }}>
+            <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <View style={styles.inputContainer}>
                     <TextInput
                         style={styles.input}
@@ -231,7 +228,7 @@ const styles = StyleSheet.create({
     },
     footer: {
         height: 46,
-        backgroundColor: '#fff',
+        backgroundColor: '#f3f3f3',
         borderTopWidth: 1,
         borderTopColor: '#ccc',
         flexDirection: 'row',
