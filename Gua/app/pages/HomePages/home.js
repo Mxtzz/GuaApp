@@ -35,15 +35,6 @@ class Home extends Component {
                 <Text>Home</Text>
                 <View style={{ flex: 1 }}>
                     <View style={styles.addMemoContainer}>
-                        {/* <TouchableHighlight
-                            onPress={() => { this.props.navigation.navigate('NewPost') }}
-                        >
-                            <_Icon
-                                name='pen'
-                                size={28}
-                                color='#FFEECC'
-                            />
-                        </TouchableHighlight> */}
                         <Button
                             icon={
                                 <_Icon

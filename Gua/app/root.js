@@ -17,7 +17,7 @@ const store = configureStore();
 store.runSaga(rootSaga);
 
 //init setting
-settings.initConfig();
+// settings.initConfig();
 
 const Root = () => (
 	<Provider store={store}>

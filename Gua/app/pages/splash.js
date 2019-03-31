@@ -7,18 +7,51 @@ import {
     Image,
     Dimensions
 } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as authCreators from '../actions/auth';
+
+import { SafeAreaView } from 'react-navigation';
+
+import * as settings from '../constants/AppSettings';
+import DataProvider from '../utils/DataProvider';
+import NavigationUtil from '../utils/NavigationUtil';
+import SessionUtil from '../utils/SessionUtil';
+import Logger from '../utils/Logger';
+
 const { width, height } = Dimensions.get('window');
 
-export class Splash extends Component {
+class Splash extends Component {
     constructor(props){
         super(props);
         // this.spinValue = new Animated.Value(0);
     }
 
+    
+
     componentDidMount(){
-        setTimeout(() => {
-            this.props.navigation.navigate('Main'); 
-        }, 1000);
+        // setTimeout(() => {
+        //     this.props.navigation.navigate('Main'); 
+        // }, 1000);
+        // Logger.logError('********** Splash componentDidMount');
+        this.checkVersionAndRedirect();
+    }
+
+    checkVersionAndRedirect = () => {
+        DataProvider.checkVersionUpgrade().then(() => {
+            SessionUtil.get().then((res) => {
+                if (res && res.isLoggedIn && res.authenticationId && res.sessionExpireTime && new Date(res.sessionExpireTime) >= new Date()) {
+                    this.props.authActions.getInitData(res.authenticationId);
+                    if (res.isHomeTipsDisplay == false) {
+                        this.props.navigation.navigate('Home');
+                    } else {
+                        // NavigationUtil.navigateStack(this.props.navigation, 'Tutorial', 'Tutorial', 0, null);
+                    }
+                } else {
+                    this.props.navigation.navigate('Login');
+                }
+            });
+        });
     }
 
     render() {
@@ -30,7 +63,7 @@ export class Splash extends Component {
     }
 }
 
-export class SplashMain extends Component{
+class SplashMain extends Component{
     constructor(props){
         super(props);
     }
@@ -79,3 +112,21 @@ const styles = StyleSheet.create({
     },
 });
 
+const mapStateToProps = (state) => {
+    const { auth, accountInformation } = state;
+
+    return {
+        isLoggedIn: auth.isLoggedIn,
+        // customerInfo: accountInformation.customerInfo
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    const authActions = bindActionCreators(authCreators, dispatch);
+
+    return {
+        authActions
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Splash);

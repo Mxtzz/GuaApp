@@ -15,7 +15,9 @@ import {
     createAppContainer
 } from 'react-navigation';
 
-import { Splash } from '../pages/splash';
+import Login from '../pages/AuthPage/Login';
+
+import Splash from '../pages/splash';
 import Home from '../pages/HomePages/home';
 import NewPost from '../pages/NewPost';
 
@@ -33,6 +35,17 @@ const HomeStack = createStackNavigator(
         initialRouteName: 'Home'
     }
 );
+
+const LoginStack = createStackNavigator(
+    {
+        Login: {
+            screen: Login
+        }
+    },
+    {
+        initialRouteName: 'Login'
+    }
+)
 
 const HotStack = createStackNavigator(
     {
@@ -122,10 +135,11 @@ const MainStack = createStackNavigator(
 const App = createAppContainer(createSwitchNavigator(
     {
         Splash: Splash,
-        Main: MainStack
+        Main: MainStack,
+        Login: LoginStack
     },
     {
-        initialRouteName: 'Splash',
+        initialRouteName: 'Splash'
     }
 ))
 
