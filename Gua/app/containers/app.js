@@ -97,7 +97,7 @@ const TabPage = createBottomTabNavigator(
         tabBarOptions: {
             showIcon: true,
             activeTintColor: 'tomato',
-            inactiveTintColor: '#000000',
+            inactiveTintColor: '#666666',
             tabStyle: {
                 backgroundColor: '#FFFFFF'
             },
