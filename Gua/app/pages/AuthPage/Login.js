@@ -137,11 +137,11 @@ class Login extends Component {
                                 <Image source={require('../../img/header.png')} style={styles.logo} />
                             </View>
                             <View style={styles.textInputContainer}>
-                                <_Icon name='email' color='#ABD825' size={24} style={styles.loginIcon} />
+                                <_Icon name='user' color='#ABD825' size={24} style={styles.loginIcon} />
                                 <TextInput
                                     ref='emailInput'
                                     keyboardType='email-address'
-                                    placeholder='Email'
+                                    placeholder='邮箱/手机号/用户名'
                                     style={styles.textInput}
                                     underlineColorAndroid='transparent'
                                     value={this.state.username}
@@ -157,10 +157,10 @@ class Login extends Component {
                                 {this.renderClearButton()}
                             </View>
                             <View style={styles.textInputContainer}>
-                                <_Icon name='password' color='#ABD825' size={30} style={styles.loginIcon} />
+                                <_Icon name='key' color='#ABD825' size={24} style={styles.loginIcon} />
                                 <TextInput
                                     ref='passwordInput'
-                                    placeholder='Password'
+                                    placeholder='请输入密码'
                                     secureTextEntry={true}
                                     style={styles.textInput}
                                     autoCapitalize='none'
