@@ -16,8 +16,8 @@ import { SafeAreaView } from 'react-navigation';
 import * as settings from '../constants/AppSettings';
 import DataProvider from '../utils/DataProvider';
 import NavigationUtil from '../utils/NavigationUtil';
-import SessionUtil from '../utils/SessionUtil';
 import Logger from '../utils/Logger';
+import SessionUtil from '../utils/SessionUtil';
 
 const { width, height } = Dimensions.get('window');
 
@@ -30,27 +30,34 @@ class Splash extends Component {
     
 
     componentDidMount(){
-        // setTimeout(() => {
-        //     this.props.navigation.navigate('Main'); 
-        // }, 1000);
-        // Logger.logError('********** Splash componentDidMount');
         this.checkVersionAndRedirect();
     }
 
     checkVersionAndRedirect = () => {
         DataProvider.checkVersionUpgrade().then(() => {
-            SessionUtil.get().then((res) => {
-                if (res && res.isLoggedIn && res.authenticationId && res.sessionExpireTime && new Date(res.sessionExpireTime) >= new Date()) {
-                    this.props.authActions.getInitData(res.authenticationId);
-                    if (res.isHomeTipsDisplay == false) {
-                        this.props.navigation.navigate('Home');
-                    } else {
-                        // NavigationUtil.navigateStack(this.props.navigation, 'Tutorial', 'Tutorial', 0, null);
-                    }
-                } else {
-                    this.props.navigation.navigate('Login');
-                }
+
+            let aa = {
+                isLogin: true,
+                isFirstLogin: true
+            }
+            SessionUtil.set(aa);
+            SessionUtil.get().then((res)=>{
+                console.log(JSON.parse(res));
             });
+            
+            
+            // SessionUtil.get().then((res) => {
+            //     if (res && res.isLoggedIn && res.authenticationId && res.sessionExpireTime && new Date(res.sessionExpireTime) >= new Date()) {
+            //         this.props.authActions.getInitData(res.authenticationId);
+            //         if (res.isHomeTipsDisplay == false) {
+            //             this.props.navigation.navigate('Home');
+            //         } else {
+            //             // NavigationUtil.navigateStack(this.props.navigation, 'Tutorial', 'Tutorial', 0, null);
+            //         }
+            //     } else {
+            //         this.props.navigation.navigate('Login');
+            //     }
+            // });
         });
     }
 
