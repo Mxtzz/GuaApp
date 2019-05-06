@@ -62,16 +62,40 @@ class Setting extends Component {
                 
                 <View style={styles.settings}>
                     <ListItem
-                        title="手机号码"
+                        title="设置A"
+                        onPress={() => {this.material()}}
+                        containerStyle={{ paddingVertical: 4, borderTopColor: '#ccc', borderTopWidth: 1 }}
                         // leftAvatar={{ source: { uri: item.avatar_url } }}
+                        rightIcon={<Icon
+                            name='chevron-small-right'
+                            type='entypo'
+                            size={width / 12}
+                            color='gray'
+                        />}
                     />
                     <ListItem
-                        title="手机号码"
+                        title="设置B"
+                        onPress={() => {this.material()}}
+                        containerStyle={{ paddingVertical: 4, borderTopColor: '#ccc', borderTopWidth: 1 }}
                         // leftAvatar={{ source: { uri: item.avatar_url } }}
+                        rightIcon={<Icon
+                            name='chevron-small-right'
+                            type='entypo'
+                            size={width / 12}
+                            color='gray'
+                        />}
                     />
                     <ListItem
-                        title="手机号码"
+                        title="设置C"
+                        onPress={() => {this.material()}}
+                        containerStyle={{ paddingVertical: 4, borderTopColor: '#ccc', borderTopWidth: 1 }}
                         // leftAvatar={{ source: { uri: item.avatar_url } }}
+                        rightIcon={<Icon
+                            name='chevron-small-right'
+                            type='entypo'
+                            size={width / 12}
+                            color='gray'
+                        />}
                     />
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center' }}>

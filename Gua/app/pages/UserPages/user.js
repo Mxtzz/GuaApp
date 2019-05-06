@@ -34,6 +34,14 @@ class User extends Component {
         this.props.navigation.navigate('Setting');
     }
 
+    material = () => {
+        this.props.navigation.navigate('Material');
+    }
+
+    returnMt = () => {
+        this.props.navigation.navigate('ReturnMt');
+    }
+
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: '#EEEEEE' }}>
@@ -73,10 +81,21 @@ class User extends Component {
                         />}
                     />
                     <ListItem
-                        title="设置"
-                        onPress={() => {this.setting()}}
+                        title="申请物资"
+                        onPress={() => {this.material()}}
                         containerStyle={{ paddingVertical: 4, borderTopColor: '#ccc', borderTopWidth: 1 }}
                         // leftAvatar={{ source: { uri: item.avatar_url } }}
+                        rightIcon={<Icon
+                            name='chevron-small-right'
+                            type='entypo'
+                            size={width / 12}
+                            color='gray'
+                        />}
+                    />
+                    <ListItem
+                        title="归还物资"
+                        onPress={() => {this.returnMt()}}
+                        containerStyle={{ paddingVertical: 4, borderTopColor: '#ccc', borderTopWidth: 1 }}
                         rightIcon={<Icon
                             name='chevron-small-right'
                             type='entypo'

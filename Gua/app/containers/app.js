@@ -26,8 +26,11 @@ import Content from '../pages/HomePages/Content';
 import Notifications from '../pages/HotPages/Notifications';
 import MyNotifi from '../pages/HotPages/MyNotifi';
 
-import User from '../pages/UserPages/user';
+import User from '../pages/UserPages/User';
 import Setting from '../pages/UserPages/Setting';
+
+import Material from '../pages/Material/Material';
+import ReturnMt from '../pages/Material/ReturnMt';
 
 const HomeStack = createStackNavigator(
     {
@@ -144,6 +147,12 @@ const MainStack = createStackNavigator(
         },
         Setting: {
             screen: Setting
+        },
+        Material: {
+            screen: Material
+        },
+        ReturnMt: {
+            screen: ReturnMt
         }
     },
 )
