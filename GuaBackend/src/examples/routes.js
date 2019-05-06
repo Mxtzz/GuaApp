@@ -13,19 +13,19 @@ const Hooks = lazy(() => import('./hooks'))
 const Test = lazy(() => import('./test'))
 
 export default {
-  path: 'examples',
-  component: Layout,
-  childRoutes: [
-    { path: '', name: 'Welcome page', component: WelcomePage },
-    { path: 'form/:formId', component: FormBuilder },
-    { path: 'code-splitting', component: CodeSplitting },
-    { path: 'demo', component: Demo },
-    { path: 'auth', protected: true, component: AuthPage },
-    {
-      path: 'markdown',
-      childRoutes: [{ path: 'write', component: Write }, { path: 'show', component: Show }]
-    },
-    { path: 'hooks', component: Hooks },
-    { path: 'test', component: Test }
-  ]
+    path: 'examples',
+    component: Layout,
+    childRoutes: [
+        { path: '', name: 'Welcome page', component: WelcomePage },
+        { path: 'form/:formId', component: FormBuilder },
+        { path: 'code-splitting', component: CodeSplitting },
+        { path: 'demo', component: Demo },
+        { path: 'auth', protected: true, component: AuthPage },
+        {
+            path: 'markdown',
+            childRoutes: [{ path: 'write', component: Write }, { path: 'show', component: Show }]
+        },
+        { path: 'hooks', component: Hooks },
+        { path: 'test', component: Test }
+    ]
 }

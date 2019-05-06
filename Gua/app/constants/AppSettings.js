@@ -22,9 +22,9 @@ export const initConfig = async () => {
 
 export const APP_VERSION = '19.04.-30';
 
-export const DSDLINK_API_URL = () => {
-    return `${config.host}://${config.url}/aspx1/API.aspx?Token=50c27001b4cb987c8d0667f7198bed94`;
+export const GUA_API_URL = () => {
+    return `http://127.0.0.1:6060/`;
 }
 
-export const DSDLINK_USERAGENT = `DSDLink_${APP_VERSION}_${DeviceInfo.getSystemName()}_${DeviceInfo.getSystemVersion()}_${DeviceInfo.getBrand()}_${DeviceInfo.getModel()}`;
+export const USERAGENT = `DSDLink_${APP_VERSION}_${DeviceInfo.getSystemName()}_${DeviceInfo.getSystemVersion()}_${DeviceInfo.getBrand()}_${DeviceInfo.getModel()}`;
 

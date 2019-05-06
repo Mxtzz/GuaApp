@@ -11,24 +11,24 @@ const db = require('./models')
 const app = new Koa()
 
 app
-  .use(cors())
-  .use(errorHandle)
-  .use(checkToken)
-  .use(logger())
-  .use(bodyParser())
+    .use(cors())
+    .use(errorHandle)
+    .use(checkToken)
+    .use(logger())
+    .use(bodyParser())
 
 app.use(router.routes(), router.allowedMethods())
 
 app.listen(6060, () => {
-  db.sequelize
-    .sync({ force: false, logging: false }) // If force is true, each DAO will do DROP TABLE IF EXISTS ..., before it tries to create its own table
-    .then(() => {
-      // require('./initData')()
+    db.sequelize
+        .sync({ force: false, logging: false }) // If force is true, each DAO will do DROP TABLE IF EXISTS ..., before it tries to create its own table
+        .then(() => {
+            // require('./initData')()
 
-      console.log('sequelize connect success')
-      console.log('sever listen on http://127.0.0.1:6060')
-    })
-    .catch(err => {
-      console.log(err)
-    })
+            console.log('sequelize connect success')
+            console.log('sever listen on http://127.0.0.1:6060')
+        })
+        .catch(err => {
+            console.log(err)
+        })
 })

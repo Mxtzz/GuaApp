@@ -40,6 +40,14 @@ export default class SessionUtil {
         }
     }
 
+    static clear = async () => {
+        try {
+            await AsyncStorage.clear()
+        } catch (e) {
+            // clear error
+        }
+    }
+
 
     //https://reactnative.cn/docs/next/asyncstorage.html
 

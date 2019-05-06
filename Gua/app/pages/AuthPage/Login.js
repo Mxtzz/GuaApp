@@ -46,33 +46,43 @@ class Login extends Component {
         };
     }
 
-    componentWillMount() {
-        SessionUtil.get().then((res) => {
-            if (res && res.email) {
-                this.setState({
-                    username: res.email,
-                    password: res.password,
-                    rememberIsChecked: res.rememberIsChecked
-                });
-            }
-        })
+    static navigationOptions = {
+        headerTitle: '登录',
+        headerBackTitle: '',
+        // headerStyle: {
+        //     backgroundColor: 'rgba(0,0,0,0)'
+        // },
+        // headerTintColor: '#FFEECC',
+    };
 
-        SessionUtil.get('config').then((res) => {
-            if (res && res.config) {
-                this.setState({ displayConfig: true });
-            }
-        });
+    componentWillMount() {
+        // SessionUtil.get().then((res) => {
+        //     if (res && res.email) {
+        //         this.setState({
+        //             username: res.email,
+        //             password: res.password,
+        //             rememberIsChecked: res.rememberIsChecked
+        //         });
+        //     }
+        // })
+
+        // SessionUtil.get('config').then((res) => {
+        //     if (res && res.config) {
+        //         this.setState({ displayConfig: true });
+        //     }
+        // });
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.isLoggedIn != this.props.isLoggedIn && nextProps.isLoggedIn) {
-            SessionUtil.get().then((res) => {
-                if (res && res.isHomeTipsDisplay == true) {
-                    NavigationUtil.navigateStack(this.props.navigation, 'Tutorial', 'Tutorial', 0, null);
-                } else {
+            SessionUtil.get().then((res)=>{
+                res = JSON.parse(res);
+                // if(res && res.isLogin == true){
                     this.props.navigation.navigate('Home');
-                }
-            })
+                // } else {
+                //     this.props.navigation.navigate('Login');
+                // }
+            });
         }
     }
 
@@ -83,9 +93,7 @@ class Login extends Component {
     };
 
     signUpOnClick = () => {
-        this.refs.passwordInput.blur();
-        this.refs.emailInput.blur();
-        this.props.navigation.navigate('SignUp', { email: this.state.username });
+        this.props.navigation.navigate('Signup');
     }
 
     recoverOnClick = () => {
@@ -97,7 +105,7 @@ class Login extends Component {
     userLogin = () => {
         this.refs.passwordInput.blur();
         this.refs.emailInput.blur();
-
+        this.props.login(this.state.username, this.state.password);
         
     };
 
@@ -117,22 +125,11 @@ class Login extends Component {
 
     render() {
         return (
-            <ImageBackground style={styles.backgroundImage}>
+            <ImageBackground source={require('../../img/bg.jpg')} style={styles.backgroundImage}>
                 <SafeAreaView style={{ flex: 1 }}>
                     <Loading color='#fff' />
                     <ScrollView keyboardDismissMode='on-drag' keyboardShouldPersistTaps='handled' scrollEnabled={false}>
                         <View style={styles.scroll}>
-                            {this.state.cog ?
-                                <Icon name='cog'
-                                    type='font-awesome'
-                                    color='#fff'
-                                    containerStyle={{ position: 'absolute', top: 8, right: 8 }}
-                                    onPress={() => {
-                                        this.props.navigation.navigate('EditConfig');
-                                    }}
-                                    underlayColor='transparent'
-                                /> : null
-                            }
                             <View style={styles.logoContainer}>
                                 <Image source={require('../../img/header.png')} style={styles.logo} />
                             </View>
@@ -179,14 +176,13 @@ class Login extends Component {
                             <Button
                                 buttonStyle={styles.signButton}
                                 onPress={this.userLogin}
-                                title='Sign In'
-                                titleStyle={Platform.OS === 'android' ? { fontFamily: '' } : null}
-                                disabled={this.state.username == '' || this.state.password == ''}
+                                title='登  录'
+                                // disabled={this.state.username == '' || this.state.password == ''}
                                 disabledStyle={styles.signButton}
-                                disabledTitleStyle={[Platform.OS === 'android' ? { fontFamily: '' } : null, { color: 'rgba(255,255,255,0.3)' }]}
+                                disabledTitleStyle={{ color: 'rgba(255,255,255,0.3)' }}
                             />
                             <CheckBox
-                                title='Remember Me'
+                                title='记住账号'
                                 containerStyle={styles.checkBoxContainer}
                                 textStyle={styles.checkboxlabelStyle}
                                 checked={this.state.rememberIsChecked}
@@ -198,12 +194,10 @@ class Login extends Component {
                             <Button
                                 buttonStyle={styles.signButton}
                                 onPress={this.signUpOnClick}
-                                title='Sign Up'
-                                titleStyle={Platform.OS === 'android' ? { fontFamily: '' } : null}
+                                title='注  册'
                                 backgroundColor='#698419'
                             />
-                            <Text style={[styles.alignRight, styles.buttonLabel]}>Forgot password?</Text>
-                            <Text style={[styles.alignRight, styles.recoverButton]} onPress={this.recoverOnClick}>Recover here</Text>
+                            <Text style={[styles.alignRight, styles.buttonLabel]}>忘记密码?</Text>
                         </View>
                     </ScrollView>
                 </SafeAreaView>
@@ -217,7 +211,6 @@ const styles = StyleSheet.create({
         flex: 1,
         width: null,
         height: null,
-        backgroundColor: '#CCC'
     },
     scroll: {
         padding: 30,
@@ -231,9 +224,10 @@ const styles = StyleSheet.create({
     },
     logo: {
         marginTop: 30,
-        width: width / 6,
-        height: width / 6,
-        alignSelf: 'center'
+        width: 80,
+        height: 80,
+        alignSelf: 'center',
+        borderRadius: 40
     },
     url: {
         textAlign: 'center',
@@ -288,10 +282,10 @@ const styles = StyleSheet.create({
         fontWeight: 'normal'
     },
     checkboxStyle: {
-        backgroundColor: '#ABD825',
+        backgroundColor: '#fff',
         width: 20,
         height: 20,
-        borderColor: '#ABD825',
+        borderColor: '#fff',
         borderWidth: 1,
         borderRadius: 3
     },

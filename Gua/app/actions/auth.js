@@ -1,12 +1,10 @@
 import * as types from '../constants/ActionTypes';
 
-export function login(username, password, deviceSerialNum, rememberIsChecked) {
+export function login(username, password) {
     return {
         type: types.LOGIN,
         username: username,
-        password: password,
-        deviceSerialNum: deviceSerialNum,
-        rememberIsChecked: rememberIsChecked
+        password: password
     };
 }
 

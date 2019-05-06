@@ -16,14 +16,18 @@ import {
 } from 'react-navigation';
 
 import Login from '../pages/AuthPage/Login';
+import Signup from '../pages/AuthPage/SignUp';
 
 import Splash from '../pages/splash';
 import Home from '../pages/HomePages/home';
 import NewPost from '../pages/NewPost';
+import Content from '../pages/HomePages/Content';
 
-import Hot from '../pages/HotPages/hot';
+import Notifications from '../pages/HotPages/Notifications';
+import MyNotifi from '../pages/HotPages/MyNotifi';
 
 import User from '../pages/UserPages/user';
+import Setting from '../pages/UserPages/Setting';
 
 const HomeStack = createStackNavigator(
     {
@@ -40,6 +44,9 @@ const LoginStack = createStackNavigator(
     {
         Login: {
             screen: Login
+        },
+        Signup: {
+            screen: Signup
         }
     },
     {
@@ -47,14 +54,17 @@ const LoginStack = createStackNavigator(
     }
 )
 
-const HotStack = createStackNavigator(
+const NotificationsStack = createStackNavigator(
     {
-        Hot: {
-            screen: Hot,
+        Notifications: {
+            screen: Notifications,
+        },
+        MyNotifi: {
+            screen: MyNotifi
         }
     },
     {
-        initialRouteName: 'Hot'
+        initialRouteName: 'Notifications'
     }
 );
 
@@ -74,8 +84,8 @@ const TabPage = createBottomTabNavigator(
         Home: { 
             screen: HomeStack,
         },
-        Hot: {
-            screen: HotStack
+        Notifications: {
+            screen: NotificationsStack
         },
         User: {
             screen: UserStack
@@ -87,8 +97,8 @@ const TabPage = createBottomTabNavigator(
                 let iconName;
                 if (routeName === 'Home') {
                     iconName = focused ? 'home':'home';
-                } else if (routeName === 'Hot') {
-                    iconName = focused ? 'heart':'heart';
+                } else if (routeName === 'Notifications') {
+                    iconName = focused ? 'bell':'bell';
                 }else if(routeName === 'User'){
                     iconName = focused ? 'baffled':'baffled';
                 }
@@ -99,8 +109,8 @@ const TabPage = createBottomTabNavigator(
                 let tabName;
                 if (routeName === 'Home') {
                     tabName = '首页';
-                } else if (routeName === 'Hot') {
-                    tabName = '热门';
+                } else if (routeName === 'Notifications') {
+                    tabName = '通知';
                 }else if(routeName === 'User'){
                     tabName = '我';
                 }
@@ -129,6 +139,12 @@ const MainStack = createStackNavigator(
         NewPost: { 
             screen: NewPost,
         },
+        Content: {
+            screen: Content
+        },
+        Setting: {
+            screen: Setting
+        }
     },
 )
 

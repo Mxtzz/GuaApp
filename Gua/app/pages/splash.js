@@ -25,6 +25,8 @@ class Splash extends Component {
     constructor(props){
         super(props);
         // this.spinValue = new Animated.Value(0);
+        // this.props.navigation.navigate('Login');
+        // this.props.navigation.navigate('Home');
     }
 
     
@@ -34,7 +36,6 @@ class Splash extends Component {
     }
 
     checkVersionAndRedirect = () => {
-        DataProvider.checkVersionUpgrade().then(() => {
 
             let aa = {
                 isLogin: true,
@@ -43,8 +44,13 @@ class Splash extends Component {
             SessionUtil.set(aa);
             SessionUtil.get().then((res)=>{
                 console.log(JSON.parse(res));
+                res = JSON.parse(res);
+                if(res && res.isLogin == true){
+                    this.props.navigation.navigate('Home');
+                } else {
+                    this.props.navigation.navigate('Login');
+                }
             });
-            
             
             // SessionUtil.get().then((res) => {
             //     if (res && res.isLoggedIn && res.authenticationId && res.sessionExpireTime && new Date(res.sessionExpireTime) >= new Date()) {
@@ -58,7 +64,6 @@ class Splash extends Component {
             //         this.props.navigation.navigate('Login');
             //     }
             // });
-        });
     }
 
     render() {

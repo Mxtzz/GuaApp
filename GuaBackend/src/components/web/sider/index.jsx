@@ -43,7 +43,7 @@ class BolgSider extends Component {
                     </li>
                     <li>
                         <Icon type="weibo" />
-                        <a target="_blank" rel="noreferrer noopener" href="https://juejin.im/user/5acac6c4f265da2378408f92">
+                        <a target="_blank" rel="noreferrer noopener" href="https://weibo.com/mxtzz/home">
                             weibo
                         </a>
                     </li>

@@ -11,7 +11,11 @@ export default function reducer(state = defaultState, action) {
                 isLoggedIn: true
             });
         
-
+        case types.RECEIVE_LOGIN_RESULT:
+            return Object.assign({}, state, {
+                signInMessage: action.signInMessage == 'True' ? '' : action.signInMessage,
+                isLoggedIn: action.signInMessage == 200
+            });
 
         case types.LOGIN:
             return Object.assign({}, state, {

@@ -10,7 +10,7 @@ import {
     Image
 } from 'react-native';
 
-import { ListItem } from 'react-native-elements';
+import { Icon, ListItem } from 'react-native-elements';
 import { createIconSetFromIcoMoon } from 'react-native-vector-icons';
 import icoMoonConfig from '../../../selection.json';
 const _Icon = createIconSetFromIcoMoon(icoMoonConfig);
@@ -29,6 +29,10 @@ class User extends Component {
         // },
         // headerTintColor: '#FFEECC',
     };
+
+    setting = () => {
+        this.props.navigation.navigate('Setting');
+    }
 
     render() {
         return (
@@ -57,9 +61,41 @@ class User extends Component {
                 </View>
                 <View style={styles.settings}>
                     <ListItem
-                        title="手机号码"
+                        title="我的发帖"
+                        onPress={() => {this.setting()}}
+                        containerStyle={{ paddingVertical: 4, borderTopColor: '#ccc', borderTopWidth: 1 }}
                         // leftAvatar={{ source: { uri: item.avatar_url } }}
+                        rightIcon={<Icon
+                            name='chevron-small-right'
+                            type='entypo'
+                            size={width / 12}
+                            color='gray'
+                        />}
                     />
+                    <ListItem
+                        title="设置"
+                        onPress={() => {this.setting()}}
+                        containerStyle={{ paddingVertical: 4, borderTopColor: '#ccc', borderTopWidth: 1 }}
+                        // leftAvatar={{ source: { uri: item.avatar_url } }}
+                        rightIcon={<Icon
+                            name='chevron-small-right'
+                            type='entypo'
+                            size={width / 12}
+                            color='gray'
+                        />}
+                    />
+                    <ListItem
+                        title="设置"
+                        onPress={() => {this.setting()}}
+                        containerStyle={{ paddingVertical: 4, borderTopColor: '#ccc', borderTopWidth: 1 }}
+                        rightIcon={<Icon
+                            name='chevron-small-right'
+                            type='entypo'
+                            size={width / 12}
+                            color='gray'
+                        />}
+                    />
+                    
                 </View>
                 
             </View>
