@@ -7,8 +7,8 @@ export const LOGIN = 'LOGIN';
 export const RECEIVE_LOGIN_RESULT = 'RECEIVE_LOGIN_RESULT';
 
 //auth
-export const GET_INIT_DATA = 'GET_INIT_DATA';
-export const INIT_DATA_SUCCESSS = 'INIT_DATA_SUCCESSS';
+export const SIGNUP = 'SIGNUP';
+export const RECEIVE_SIGNUP_RESULT = 'RECEIVE_SIGNUP_RESULT';
 
 export const SIGNUP = 'SIGNUP';
 export const RECEIVE_SIGNUP_RESULT = 'RECEIVE_SIGNUP_RESULT';

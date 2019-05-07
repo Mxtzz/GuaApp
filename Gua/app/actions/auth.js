@@ -22,7 +22,6 @@ export function signup(username, password) {
     };
 }
 
-
 export function sendNewUserCreate(email, fullName, phone) {
     return {
         type: types.SENDNEWUSERCREATE,

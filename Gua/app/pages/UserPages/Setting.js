@@ -21,6 +21,8 @@ const _Icon = createIconSetFromIcoMoon(icoMoonConfig);
 const { width, height } = Dimensions.get('window');
 import SessionUtil from '../../utils/SessionUtil';
 
+import SessionUtil from '../../utils/SessionUtil';
+
 class Setting extends Component {
     constructor(props) {
         super(props);
@@ -45,9 +47,17 @@ class Setting extends Component {
     }
 
     logout = () => {
+<<<<<<< HEAD
         SessionUtil.clear().then(()=>{
             this.props.navigation.navigate('Login');
         });
+=======
+        // this.props.logout();
+        SessionUtil.clear().then(()=>{
+            this.props.navigation.navigate('Login');
+        });
+        
+>>>>>>> 4887dfc528d2ea247800a974933a530708a81bc3
     }
 
     render() {
@@ -130,7 +140,7 @@ const mapStateToProps = state => {
     const { auth } = state;
 
     return {
-        isLoggedOut: auth.isLoggedOut
+        // isLoggedOut: auth.isLoggedOut
     };
 };
 
@@ -138,7 +148,7 @@ const mapDispatchToProps = dispatch => {
     const authActions = bindActionCreators(authCreators, dispatch);
 
     return {
-        logout: authActions.logout
+        // logout: authActions.logout
     };
 };
 

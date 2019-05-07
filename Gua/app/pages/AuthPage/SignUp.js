@@ -56,7 +56,6 @@ class SignUp extends Component {
     };
 
     componentWillMount() {
-
     }
 
     componentWillReceiveProps(nextProps) {

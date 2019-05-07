@@ -49,14 +49,13 @@ class Login extends Component {
     static navigationOptions = {
         headerTitle: '登录',
         headerBackTitle: '',
-        // headerStyle: {
-        //     backgroundColor: 'rgba(0,0,0,0)'
-        // },
+        headerStyle: {
+            backgroundColor: 'rgba(0,0,0,0)'
+        },
         // headerTintColor: '#FFEECC',
     };
 
     componentWillMount() {
-
     }
 
     componentWillReceiveProps(nextProps) {
