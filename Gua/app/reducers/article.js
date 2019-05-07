@@ -17,6 +17,11 @@ export default function reducer(state = defaultState, action) {
                 articleById: action.articleById
             });
 
+        case types.RECEIVE_CREATE_ARTICLE_RESULT:
+            return Object.assign({}, state, {
+                createArticleResult: {...action.createArticleResult}
+            })
+
         default:
             return state;
     }

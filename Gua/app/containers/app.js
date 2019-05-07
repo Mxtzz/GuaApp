@@ -149,7 +149,7 @@ const MainStack = createStackNavigator(
             screen: Setting
         },
         Material: {
-            screen: Material
+            screen: Material,
         },
         ReturnMt: {
             screen: ReturnMt

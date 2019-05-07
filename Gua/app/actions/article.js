@@ -12,3 +12,11 @@ export function getArticleById(id) {
         id: id
     };
 }
+
+export function createArticle(title, content){
+    return {
+        type: types.CREATE_ARTICLE,
+        title: title,
+        content: content
+    }
+}

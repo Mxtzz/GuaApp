@@ -10,7 +10,7 @@ import {
     Platform,
     TouchableWithoutFeedback,
     TouchableOpacity,
-    Linking,
+    Alert,
     ScrollView
 } from 'react-native';
 
@@ -18,7 +18,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as authCreators from '../../actions/auth';
 
-import DeviceInfo from 'react-native-device-info';
 import { SafeAreaView } from 'react-navigation';
 import { Button, Icon, CheckBox } from 'react-native-elements';
 
@@ -40,6 +39,7 @@ class SignUp extends Component {
         this.state = {
             username: '',
             password: '',
+            password1: '',
             rememberIsChecked: false,
             displayConfig: false,
             showClearButton: false
@@ -56,32 +56,21 @@ class SignUp extends Component {
     };
 
     componentWillMount() {
-        SessionUtil.get().then((res) => {
-            if (res && res.email) {
-                this.setState({
-                    username: res.email,
-                    password: res.password,
-                    rememberIsChecked: res.rememberIsChecked
-                });
-            }
-        })
 
-        SessionUtil.get('config').then((res) => {
-            if (res && res.config) {
-                this.setState({ displayConfig: true });
-            }
-        });
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.isLoggedIn != this.props.isLoggedIn && nextProps.isLoggedIn) {
-            SessionUtil.get().then((res) => {
-                if (res && res.isHomeTipsDisplay == true) {
-                    NavigationUtil.navigateStack(this.props.navigation, 'Tutorial', 'Tutorial', 0, null);
-                } else {
-                    this.props.navigation.navigate('Home');
-                }
-            })
+        if (nextProps.isSignup != this.props.isSignup && nextProps.isSignup) {
+            Alert.alert(
+                `${nextProps.signUpMessage}`,
+                '',
+                [
+                    { text: '取消', onPress: () => {} },
+                    { text: '登录', onPress: () => this.props.navigation.navigate('Login')},
+                ],
+                { cancelable: false }      
+            )
+            
         }
     }
 
@@ -94,20 +83,12 @@ class SignUp extends Component {
     signUpOnClick = () => {
         this.refs.passwordInput.blur();
         this.refs.emailInput.blur();
-        this.props.navigation.navigate('SignUp', { email: this.state.username });
-    }
-
-    recoverOnClick = () => {
-        this.refs.passwordInput.blur();
-        this.refs.emailInput.blur();
-        this.props.navigation.navigate('ResetPassword', { email: this.state.username });
+        this.props.signup(this.state.username, this.state.password);
     }
 
     userLogin = () => {
         this.refs.passwordInput.blur();
         this.refs.emailInput.blur();
-
-
     };
 
     renderClearButton() {
@@ -167,7 +148,7 @@ class SignUp extends Component {
                                 disabledTitleStyle={[{ color: 'rgba(255,255,255,0.3)' }]}
                             /> */}
 
-                            <View style={styles.textInputContainer}>
+                            {/* <View style={styles.textInputContainer}>
                                 <_Icon name='key' color='#ABD825' size={24} style={styles.loginIcon} />
                                 <TextInput
                                     ref='passwordInput'
@@ -183,7 +164,7 @@ class SignUp extends Component {
                                         });
                                     }}
                                 />
-                            </View>
+                            </View> */}
 
                             <View style={styles.textInputContainer}>
                                 <_Icon name='key' color='#ABD825' size={24} style={styles.loginIcon} />
@@ -202,7 +183,7 @@ class SignUp extends Component {
                                     }}
                                 />
                             </View>
-                            <View style={styles.textInputContainer}>
+                            <View style={[styles.textInputContainer, this.state.password != this.state.password1 ? { borderColor: '#f00', borderWidth: 1 } : {}]}>
                                 <_Icon name='key' color='#ABD825' size={24} style={styles.loginIcon} />
                                 <TextInput
                                     ref='passwordInput'
@@ -211,10 +192,10 @@ class SignUp extends Component {
                                     style={styles.textInput}
                                     autoCapitalize='none'
                                     underlineColorAndroid='transparent'
-                                    value={this.state.password}
+                                    value={this.state.password1}
                                     onChangeText={(text) => {
                                         this.setState({
-                                            password: text
+                                            password1: text
                                         });
                                     }}
                                 />
@@ -224,7 +205,7 @@ class SignUp extends Component {
                                 buttonStyle={styles.signButton}
                                 onPress={this.signUpOnClick}
                                 title='注  册'
-                                disabled={this.state.username == '' || this.state.password == ''}
+                                disabled={this.state.username == '' || this.state.password == '' || this.state.password != this.state.password1}
                                 backgroundColor='#698419'
                                 disabledStyle={styles.signButton}
                                 disabledTitleStyle={[{ color: 'rgba(255,255,255,0.3)' }]}
@@ -354,8 +335,8 @@ const mapStateToProps = state => {
     const { auth } = state;
 
     return {
-        signInMessage: auth.signInMessage,
-        isLoggedIn: auth.isLoggedIn
+        isSignup: auth.isSignup,
+        signUpMessage: auth.signUpMessage
     };
 };
 
@@ -363,7 +344,7 @@ const mapDispatchToProps = dispatch => {
     const authActions = bindActionCreators(authCreators, dispatch);
 
     return {
-        login: authActions.login
+        signup: authActions.signup
     };
 };
 

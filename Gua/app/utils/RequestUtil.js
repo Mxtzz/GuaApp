@@ -1,7 +1,8 @@
 import Logger from '../utils/Logger';
 import * as appSettings from '../constants/AppSettings';
+import SessionUtil from '../utils/SessionUtil';
 
-const request = async (url, method, body, responesType = 'JSON') => {
+const request = async (url, method, body, token, responesType = 'JSON') => {
     return new Promise((resolve, reject) => {
         let headers = new Headers();
         if (method == 'get') {
@@ -9,11 +10,12 @@ const request = async (url, method, body, responesType = 'JSON') => {
         } else {
             headers.append('Content-Type', 'application/json');
         }
+        let authorization = '';
+        
         headers.append('Accept', 'application/json');
         headers.append('Cache-Control', 'no-cache');
         headers.append('User-Agent', appSettings.USERAGENT);
-
-        let token = (new Date()).getTime();
+        headers.append('authorization', `Bearer ${token}`);
 
         fetch(url, {
             method,

@@ -12,16 +12,31 @@ export function* watchGetInitData() {
     yield takeLatest(types.GET_INIT_DATA, getInitData);
 }
 
-export function* getInitData({ authenticationId }) {
-    // yield put({
-    //     type: types.SHOW_LOADING,
-    //     loadingText: 'Data Initializing...'
-    // });
+export function* getInitData() {
+    yield put({
+        type: types.SHOW_LOADING,
+        loadingText: 'Data Initializing...'
+    });
 
+    let session = '';
+    try {
+        session = yield call(SessionUtil.get);
+        session = JSON.parse(session);
+    } catch (error) {
+        session = { Message: JSON.stringify(error) };
+    }
+    
+    yield put({
+        type: types.INIT_DATA_SUCCESSS,
+        isLoggedIn: session.isLoggedIn,
+        username: session.username,
+        auth: session.auth
+    });
+    
 
-    // yield put({
-    //     type: types.HIDE_LOADING
-    // });
+    yield put({
+        type: types.HIDE_LOADING
+    });
 }
 
 export function* watchLogin() {
@@ -53,7 +68,6 @@ export function* login({ username, password }) {
     if(results.code == 200){
         let session = {
             isLogin: true,
-            isFirstLogin: true,
             username: results.username,
             token: results.token,
             auth: results.auth
@@ -61,16 +75,52 @@ export function* login({ username, password }) {
         SessionUtil.set(session);
     }
     
-
     yield put({
         type: types.RECEIVE_LOGIN_RESULT,
-        signInMessage: results.code
+        signInMessage: results.code,
+        username: results.username,
+        auth: results.auth
     });
 
     yield put({
         type: types.HIDE_LOADING
     });
 }
+
+export function* watchSignup() {
+    yield takeLatest(types.SIGNUP, signup);
+}
+
+export function* signup({ username, password }) {
+    yield put({
+        type: types.SHOW_LOADING
+    });
+
+    let data = {
+        "username": username,
+        "password": password
+    }
+
+    let results = {};
+    try {
+        results = yield call(requstUtil.request, `${appSettings.GUA_API_URL()}register`, 'post', JSON.stringify(data));
+    } catch (error) {
+        results = { Message: JSON.stringify(error) };
+    }
+
+    console.log(results);
+    // if(results.code == 200){
+        yield put({
+            type: types.RECEIVE_SIGNUP_RESULT,
+            isSignup: results.code,
+            signUpMessage: results.message
+        });
+    // }
+
+    yield put({
+        type: types.HIDE_LOADING
+    });
+} 
 
 export function* watchLogout() {
     yield takeLatest(types.LOGOUT, logout);

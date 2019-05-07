@@ -24,9 +24,6 @@ const { width, height } = Dimensions.get('window');
 class Splash extends Component {
     constructor(props){
         super(props);
-        // this.spinValue = new Animated.Value(0);
-        // this.props.navigation.navigate('Login');
-        // this.props.navigation.navigate('Home');
     }
 
     
@@ -36,34 +33,19 @@ class Splash extends Component {
     }
 
     checkVersionAndRedirect = () => {
-
-            let aa = {
-                isLogin: true,
-                isFirstLogin: true
-            }
-            SessionUtil.set(aa);
-            SessionUtil.get().then((res)=>{
-                console.log(JSON.parse(res));
+        SessionUtil.get().then((res)=>{
+            if(res){
                 res = JSON.parse(res);
-                if(res && res.isLogin == true){
+                if(res.isLogin == true){
+                    this.props.getInitData();
                     this.props.navigation.navigate('Home');
                 } else {
                     this.props.navigation.navigate('Login');
                 }
-            });
-            
-            // SessionUtil.get().then((res) => {
-            //     if (res && res.isLoggedIn && res.authenticationId && res.sessionExpireTime && new Date(res.sessionExpireTime) >= new Date()) {
-            //         this.props.authActions.getInitData(res.authenticationId);
-            //         if (res.isHomeTipsDisplay == false) {
-            //             this.props.navigation.navigate('Home');
-            //         } else {
-            //             // NavigationUtil.navigateStack(this.props.navigation, 'Tutorial', 'Tutorial', 0, null);
-            //         }
-            //     } else {
-            //         this.props.navigation.navigate('Login');
-            //     }
-            // });
+            }else {
+                this.props.navigation.navigate('Login');
+            }
+        });
     }
 
     render() {
@@ -125,11 +107,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-    const { auth, accountInformation } = state;
+    const { auth } = state;
 
     return {
         isLoggedIn: auth.isLoggedIn,
-        // customerInfo: accountInformation.customerInfo
     };
 };
 
@@ -137,7 +118,7 @@ const mapDispatchToProps = (dispatch) => {
     const authActions = bindActionCreators(authCreators, dispatch);
 
     return {
-        authActions
+        getInitData: authActions.getInitData
     };
 };
 

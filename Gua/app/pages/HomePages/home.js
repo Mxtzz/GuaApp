@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as articleCreators from '../../actions/article';
 
+import Loading from '../../components/Loading';
 import { Button, Icon } from 'react-native-elements';
 import { createIconSetFromIcoMoon } from 'react-native-vector-icons';
 import icoMoonConfig from '../../../selection.json';
@@ -25,7 +26,7 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            
+            refreshing: false
         }
     }
 
@@ -43,8 +44,10 @@ class Home extends Component {
     }
     
     componentWillReceiveProps(nextProps) {
-        if(nextProps.articleList && this.props.articleList != nextProps.articleList){
-            console.log(nextProps.articleList)
+        if(nextProps.articleList && this.props.articleList != nextProps.articleList && this.state.refreshing == true){
+            this.setState({
+                refreshing: false
+            });
         }
     }
 
@@ -113,14 +116,18 @@ class Home extends Component {
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: '#EEEEEE' }}>
+            <Loading/>
                 <View style={{ flex: 1 }}>
                     <FlatList
                         data={this.props.articleList}
                         keyExtractor={this._keyExtractor}
                         renderItem={this._renderCard}
                         extraData={this.state}
-                        // refreshing={this.state.refreshing}
-                        // onRefresh={this.getMyOrderData}
+                        refreshing={this.state.refreshing}
+                        onRefresh={()=>{
+                            this.setState({ refreshing: true });
+                            this.props.getArticleList();
+                        }}
                         style={{ flex: 1, backgroundColor: '#eee' }}
                     />
 

@@ -30,9 +30,8 @@ module.exports = (sequelize, dataTypes) => {
     )
 
     Material.associate = models => {
-        Material.hasMany(models.tag)
-        Material.hasMany(models.category)
-        Material.hasMany(models.comment)
+        // Material.hasMany(models.tag)
+        // Material.hasMany(models.category)
         Material.hasMany(models.reply)
         Material.belongsTo(models.user, {
             foreignKey: 'userId',

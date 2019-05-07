@@ -10,6 +10,10 @@ import {
     Image
 } from 'react-native';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as authCreators from '../../actions/auth';
+
 import { Icon, ListItem } from 'react-native-elements';
 import { createIconSetFromIcoMoon } from 'react-native-vector-icons';
 import icoMoonConfig from '../../../selection.json';
@@ -51,7 +55,7 @@ class User extends Component {
                         source={require('../../img/header.png')}
                     />
                     <Text style={{ padding: 8, fontSize: 18, fontWeight: '600' }}>User</Text>
-                    <Text style={{ color: '#666' }}>签名</Text>
+                    <Text style={{ color: '#666' }}>这里本来可以显示签名</Text>
                 </View>
                 <View style={styles.userFriends}>
                     <View style={styles.userFriendsBlock}>
@@ -159,4 +163,20 @@ const styles = StyleSheet.create({
     }
 });
 
-export default User;
+const mapStateToProps = state => {
+    const { auth } = state;
+
+    return {
+        // auth: auth.
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    const authActions = bindActionCreators(authCreators, dispatch);
+
+    return {
+        // createArticle: authActions.createArticle
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(User);

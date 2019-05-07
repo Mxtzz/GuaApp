@@ -91,20 +91,15 @@ module.exports = {
         // const tagFilter = tag ? { name: { $like: `%${tag}%` } } : {}
         // const categoryFilter = category ? { name: { $like: category } } : {}
         const tagFilter = tag ? { name: tag } : {}
-        const categoryFilter = category ? { name: category } : {}
+        // const categoryFilter = category ? { name: category } : {}
 
         pageSize = parseInt(pageSize) // 处理 pageSize
 
         const data = await MaterialModel.findAndCountAll({
             where,
             include: [
-                { model: TagModel, attributes: ['name'], where: tagFilter },
-                { model: CategoryModel, attributes: ['name'], where: categoryFilter },
-                {
-                    model: CommentModel,
-                    attributes: ['id'],
-                    include: [{ model: ReplyModel, attributes: ['id'] }]
-                },
+                // { model: TagModel, attributes: ['name'], where: tagFilter },
+                // { model: CategoryModel, attributes: ['name'], where: categoryFilter },
                 { model: UserModel, as: 'user', attributes: ['username'] }
             ],
             offset,

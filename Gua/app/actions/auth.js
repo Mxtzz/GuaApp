@@ -1,5 +1,11 @@
 import * as types from '../constants/ActionTypes';
 
+export function getInitData() {
+    return {
+        type: types.GET_INIT_DATA
+    };
+}
+
 export function login(username, password) {
     return {
         type: types.LOGIN,
@@ -7,6 +13,15 @@ export function login(username, password) {
         password: password
     };
 }
+
+export function signup(username, password) {
+    return {
+        type: types.SIGNUP,
+        username: username,
+        password: password
+    };
+}
+
 
 export function sendNewUserCreate(email, fullName, phone) {
     return {
@@ -35,14 +50,6 @@ export function resetResetPasswordMessage() {
         type: types.RESET_PASSWORD_MESSAGE
     }
 }
-
-export function getInitData(authenticationId) {
-    return {
-        type: types.GET_INIT_DATA,
-        authenticationId: authenticationId
-    };
-}
-
 
 export function logout() {
     return {

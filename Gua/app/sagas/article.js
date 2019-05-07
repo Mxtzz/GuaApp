@@ -26,10 +26,10 @@ export function* getArticleList() {
     }
     console.log(results);
 
-    if(results.code == 200){
+    if (results.code == 200) {
         articleList = results.rows;
     }
-    
+
 
     yield put({
         type: types.RECEIVE_ARTICLE_LIST_RESULT,
@@ -59,13 +59,50 @@ export function* getArticleById({ id }) {
     }
     console.log(results);
 
-    if(results.code == 200){
+    if (results.code == 200) {
         articleById = results.data;
     }
-    
+
     yield put({
         type: types.RECEIVE_ARTICLE_BY_ID_RESULT,
         articleById: articleById,
+    });
+
+    yield put({
+        type: types.HIDE_LOADING
+    });
+}
+
+export function* watchCreateArticle() {
+    yield takeLatest(types.CREATE_ARTICLE, createArticle);
+}
+
+export function* createArticle({ title, content }) {
+    yield put({
+        type: types.SHOW_LOADING
+    });
+
+    let params = {
+        title: title,
+        content: content,
+        categories: [''],
+        tags: ['']
+    }
+
+    let results = "";
+    let session = "";
+    try {
+        session = yield call(SessionUtil.get);
+        session = JSON.parse(session);
+        results = yield call(requstUtil.request, `${appSettings.GUA_API_URL()}article/create`, 'post', JSON.stringify(params), session.token);
+    } catch (error) {
+        results = { Message: JSON.stringify(error) };
+    }
+    // console.log(results);
+
+    yield put({
+        type: types.RECEIVE_CREATE_ARTICLE_RESULT,
+        createArticleResult: results.code == 200 ? true : false,
     });
 
     yield put({
