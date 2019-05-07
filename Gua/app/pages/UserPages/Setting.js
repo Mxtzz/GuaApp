@@ -14,11 +14,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as authCreators from '../../actions/auth';
 
-import { ListItem, Button } from 'react-native-elements';
+import { ListItem, Button, Icon } from 'react-native-elements';
 import { createIconSetFromIcoMoon } from 'react-native-vector-icons';
 import icoMoonConfig from '../../../selection.json';
 const _Icon = createIconSetFromIcoMoon(icoMoonConfig);
 const { width, height } = Dimensions.get('window');
+
+import SessionUtil from '../../utils/SessionUtil';
 
 class Setting extends Component {
     constructor(props) {
@@ -45,7 +47,10 @@ class Setting extends Component {
 
     logout = () => {
         // this.props.logout();
-        this.props.navigation.navigate('Login');
+        SessionUtil.clear().then(()=>{
+            this.props.navigation.navigate('Login');
+        });
+        
     }
 
     render() {
@@ -128,7 +133,7 @@ const mapStateToProps = state => {
     const { auth } = state;
 
     return {
-        isLoggedOut: auth.isLoggedOut
+        // isLoggedOut: auth.isLoggedOut
     };
 };
 
@@ -136,7 +141,7 @@ const mapDispatchToProps = dispatch => {
     const authActions = bindActionCreators(authCreators, dispatch);
 
     return {
-        logout: authActions.logout
+        // logout: authActions.logout
     };
 };
 

@@ -2,6 +2,8 @@ import { fork } from 'redux-saga/effects';
 import {
     watchGetInitData,
     watchLogin,
+    watchSignup,
+    // watchLogout
 } from './auth';
 import {
     watchGetArticleList,
@@ -13,4 +15,6 @@ export default function* rootSaga() {
     yield fork(watchLogin);
     yield fork(watchGetArticleList);
     yield fork(watchGetArticleById);
+    yield fork(watchSignup);
+    // yield fork(watchLogout);
 }

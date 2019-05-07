@@ -8,6 +8,14 @@ export function login(username, password) {
     };
 }
 
+export function signup(username, password) {
+    return {
+        type: types.SIGNUP,
+        username: username,
+        password: password
+    };
+}
+
 export function sendNewUserCreate(email, fullName, phone) {
     return {
         type: types.SENDNEWUSERCREATE,

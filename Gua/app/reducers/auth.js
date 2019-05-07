@@ -17,6 +17,12 @@ export default function reducer(state = defaultState, action) {
                 isLoggedIn: action.signInMessage == 200
             });
 
+        case types.RECEIVE_SIGNUP_RESULT:
+            return Object.assign({}, state, {
+                signUpMessage: action.signUpMessage,
+                isSignup: action.isSignup == 200
+            });
+
         case types.LOGIN:
             return Object.assign({}, state, {
                 message: ''

@@ -36,34 +36,19 @@ class Splash extends Component {
     }
 
     checkVersionAndRedirect = () => {
-
-            let aa = {
-                isLogin: true,
-                isFirstLogin: true
-            }
-            SessionUtil.set(aa);
             SessionUtil.get().then((res)=>{
-                console.log(JSON.parse(res));
-                res = JSON.parse(res);
-                if(res && res.isLogin == true){
-                    this.props.navigation.navigate('Home');
-                } else {
+                if(res){
+                    res = JSON.parse(res);
+                    if(res.isLogin == true){
+                        this.props.navigation.navigate('Home');
+                    } else {
+                        this.props.navigation.navigate('Login');
+                    }
+                }else {
                     this.props.navigation.navigate('Login');
                 }
+                
             });
-            
-            // SessionUtil.get().then((res) => {
-            //     if (res && res.isLoggedIn && res.authenticationId && res.sessionExpireTime && new Date(res.sessionExpireTime) >= new Date()) {
-            //         this.props.authActions.getInitData(res.authenticationId);
-            //         if (res.isHomeTipsDisplay == false) {
-            //             this.props.navigation.navigate('Home');
-            //         } else {
-            //             // NavigationUtil.navigateStack(this.props.navigation, 'Tutorial', 'Tutorial', 0, null);
-            //         }
-            //     } else {
-            //         this.props.navigation.navigate('Login');
-            //     }
-            // });
     }
 
     render() {

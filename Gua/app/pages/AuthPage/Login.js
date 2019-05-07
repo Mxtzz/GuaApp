@@ -49,40 +49,23 @@ class Login extends Component {
     static navigationOptions = {
         headerTitle: '登录',
         headerBackTitle: '',
-        // headerStyle: {
-        //     backgroundColor: 'rgba(0,0,0,0)'
-        // },
+        headerStyle: {
+            backgroundColor: 'rgba(0,0,0,0)'
+        },
         // headerTintColor: '#FFEECC',
     };
 
     componentWillMount() {
-        // SessionUtil.get().then((res) => {
-        //     if (res && res.email) {
-        //         this.setState({
-        //             username: res.email,
-        //             password: res.password,
-        //             rememberIsChecked: res.rememberIsChecked
-        //         });
-        //     }
-        // })
-
-        // SessionUtil.get('config').then((res) => {
-        //     if (res && res.config) {
-        //         this.setState({ displayConfig: true });
-        //     }
-        // });
+        
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.isLoggedIn != this.props.isLoggedIn && nextProps.isLoggedIn) {
-            SessionUtil.get().then((res)=>{
-                res = JSON.parse(res);
-                // if(res && res.isLogin == true){
-                    this.props.navigation.navigate('Home');
-                // } else {
-                //     this.props.navigation.navigate('Login');
-                // }
-            });
+        if (nextProps.isLoggedIn != this.props.isLoggedIn && nextProps.isLoggedIn == true) {
+            let mySession = {
+                isLogin: true
+            }
+            SessionUtil.set(mySession);
+            this.props.navigation.navigate('Home');
         }
     }
 
