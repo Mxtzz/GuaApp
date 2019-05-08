@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import {
     View,
     Text,
+    TextInput,
     StyleSheet,
     TouchableOpacity,
     Platform,
     TouchableHighlight,
     Dimensions,
     FlatList,
-    Image
+    Image,
+    Modal
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -26,7 +28,9 @@ class Content extends Component {
         super(props);
         this.state = {
             mainContent: this.props.navigation.state.params ? this.props.navigation.state.params.mainContent : '',
-            articleId: this.props.navigation.state.params ? this.props.navigation.state.params.articleId : ''
+            articleId: this.props.navigation.state.params ? this.props.navigation.state.params.articleId : '',
+            comment: '',
+            isCommentModalDisplay: false
         }
     }
 
@@ -39,15 +43,18 @@ class Content extends Component {
         this.props.getArticleById(this.state.articleId);
     }
 
-    componentWillReceiveProps(nextProps){
-        if(nextProps.articleById && this.props.articleById != nextProps.articleById){
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.articleById && this.props.articleById != nextProps.articleById) {
             // console.log(nextProps.articleList)
         }
     }
-    
+
+    saveComment = () => {
+        this.setState({isCommentModalDisplay: false});
+    }
 
     clickComment = () => {
-        console.log("click comment");
+        this.setState({isCommentModalDisplay: true});
     }
 
     _keyExtractor = (item, index) => item.id;
@@ -84,14 +91,13 @@ class Content extends Component {
                         <TouchableOpacity onPress={() => { this.clickComment() }}>
                             <Text style={{ flex: 1, paddingVertical: 8, fontSize: 14, textAlign: 'center' }}>
                                 <_Icon name='heart' size={14} color='#CCCCCC' />
-                                {` 喜欢 ${this.state.mainContent.commentCount}`}
+                                {` 喜欢 ${this.state.mainContent.comments.length}`}
                             </Text>
                         </TouchableOpacity>
                     </View>
                 </View>
             </View>
         )
-
     }
 
     _renderCommentCard = ({ item }) => {
@@ -102,7 +108,7 @@ class Content extends Component {
                     <View style={{ flex: 1, flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#eee', padding: 8 }}>
                         <View style={{ flex: 1 }}>
                             <Text style={{ fontSize: 16 }}>
-                                {item.user ? item.user.username : ""}
+                                {item.user ? item.user.nickname : ""}
                             </Text>
                             <Text style={{ fontSize: 12, color: '#aaa' }}>
                                 {item.createdAt}
@@ -133,6 +139,50 @@ class Content extends Component {
                     style={{ flex: 1, backgroundColor: '#eee' }}
                     ListHeaderComponent={this.renderListHeader}
                 />
+                <Button
+                    buttonStyle={{ backgroundColor: 'tomato', height: 50 }}
+                    title='评论'
+                    onPress={() => { this.clickComment() }}
+                />
+
+                <Modal visible={this.state.isCommentModalDisplay} transparent={true} onRequestClose={() => { this.setState({isCommentModalDisplay: false}) }}>
+                    <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.8)', justifyContent: 'center', alignItems: 'center' }}>
+                        <View style={{ backgroundColor: '#fff', borderRadius: 12, height: height / 2.2, width: width - 40, maxWidth: 360, overflow: 'hidden' }}>
+                            <View style={{ backgroundColor: '#FF7C4D', padding: 6 }}>
+                                <Text style={{ textAlign: 'center', fontSize: 20, color: '#fff' }}>评论</Text>
+                            </View>
+                            <View style={{ flex: 1 }}>
+                                <View style={{ paddingVertical: 8, marginHorizontal: 8, justifyContent: 'center', borderBottomColor: '#FC7400', borderBottomWidth: 1 }}>
+                                    <Text style={{ fontSize: 18, lineHeight: 20, textAlign: 'center' }}>{this.state.mainContent.content}</Text>
+                                    {/* <Text style={{ color: '#777', lineHeight: 20, textAlign: 'center' }}>{this.state.selectedUser.Email}</Text> */}
+                                </View>
+                                <View style={{ flex: 1, marginVertical: 8 }}>
+                                    <TextInput
+                                        style={{padding: 8}}
+                                        multiline={true}
+                                        numberOfLines={10}
+                                        onChangeText={(text)=>{ this.setState({comment: text}) }}
+                                        value={this.state.comment}
+                                        placeholder='评论...'
+                                    />
+                                </View>
+                            </View>
+                            <View style={{ flexDirection: 'row', backgroundColor: '#fff' }}>
+                                <View style={{ flex: 1, backgroundColor: '#FF7C4D', marginRight: 1 }}>
+                                    <TouchableOpacity onPress={() => this.setState({isCommentModalDisplay: false})}>
+                                        <Text style={{ textAlign: 'center', fontSize: 20, color: '#fff', paddingVertical: 10 }}>取消</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={{ flex: 1, backgroundColor: '#FF7C4D' }}>
+                                    <TouchableOpacity onPress={this.saveComment}>
+                                        <Text style={{ textAlign: 'center', fontSize: 20, color: '#fff', paddingVertical: 10 }}>确定</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+
+                        </View>
+                    </View>
+                </Modal>
             </View>
 
         );

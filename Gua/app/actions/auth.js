@@ -14,11 +14,12 @@ export function login(username, password) {
     };
 }
 
-export function signup(username, password) {
+export function signup(username, password, nickname) {
     return {
         type: types.SIGNUP,
         username: username,
-        password: password
+        password: password,
+        nickname: nickname
     };
 }
 

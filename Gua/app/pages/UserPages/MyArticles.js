@@ -5,7 +5,6 @@ import {
     StyleSheet,
     TouchableOpacity,
     Platform,
-    TouchableHighlight,
     Dimensions,
     FlatList,
     Image
@@ -22,7 +21,7 @@ import icoMoonConfig from '../../../selection.json';
 const _Icon = createIconSetFromIcoMoon(icoMoonConfig);
 const { width, height } = Dimensions.get('window');
 
-class Home extends Component {
+class MyArticles extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -31,12 +30,8 @@ class Home extends Component {
     }
 
     static navigationOptions = {
-        headerTitle: '首页',
+        headerTitle: '我的发帖',
         headerBackTitle: '',
-        // headerStyle: {
-        //     backgroundColor: '#333'
-        // },
-        // headerTintColor: '#FFEECC',
     };
 
     componentWillMount() {
@@ -48,6 +43,9 @@ class Home extends Component {
             this.setState({
                 refreshing: false
             });
+        }
+        if(nextProps.deleteArticleResult && this.props.deleteArticleResult != nextProps.deleteArticleResult){
+            this.props.getArticleList();
         }
     }
 
@@ -70,25 +68,23 @@ class Home extends Component {
 
     _keyExtractor = (item, index) => item.id;
 
+    deleteArticle = (id) => {
+        this.props.deleteArticle(id);
+    }
+
     _renderCard = ({item}) => {
         return(
             <View style={{ flex: 1, backgroundColor: '#fff', flexDirection: 'column', marginBottom: 8 }}>
                 <TouchableOpacity onPress={()=>{this.clickCard(item)}}>
-                <View style={{ flex: 1, flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#eee', padding: 8 }}>
-                    <Image source={require('../../img/header.png')} style={{ height: 40, width: 40, borderRadius: 20, borderColor: '#eee', borderWidth: 1 }}/>
-                    <View style={{ flex: 1, paddingLeft: 8 }}>
-                        <Text style={{ fontSize: 14 }}>
-                            {item.user ? item.user.nickname : "游客"}
-                        </Text>
-                        <Text style={{ fontSize: 12, color: '#aaa' }}>
-                            {item.createdAt}
-                        </Text>
-                    </View>
-                </View>
-                <View style={{ flex: 1, borderBottomWidth: 1, borderBottomColor: '#eee', padding: 8 }}>
-                    <Text style={{ fontSize: 14, lineHeight: 20, color: '#000' }}>
+                <View style={{ flexDirection: 'row', flex: 1, borderBottomWidth: 1, borderBottomColor: '#eee', padding: 8 }}>
+                    <Text style={{ flex: 1, fontSize: 16, lineHeight: 20, color: '#000' }}>
                         {this.cutWords(item.content, 140)}
                     </Text>
+                    <View style={{ justifyContent: 'center', alignItems: 'flex-end', margin: 8 }}>
+                        <TouchableOpacity style={styles.clearButton} onPress={() => this.deleteArticle(item.id)}  >
+                            <_Icon name='trash-2' color='black' size={24} />
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
                     <View style={{flex: 1, borderRightWidth: 1, borderRightColor: '#eee'}}>
@@ -114,12 +110,20 @@ class Home extends Component {
     }
 
     render() {
+        let articleList = [];
+        if(this.props.articleList && this.props.userId && this.props.articleList.length > 0){
+            this.props.articleList.map(item => {
+                if(item.userId == this.props.userId){
+                    articleList.push(item);
+                }
+            })
+        }
         return (
             <View style={{ flex: 1, backgroundColor: '#EEEEEE' }}>
             <Loading/>
                 <View style={{ flex: 1 }}>
                     <FlatList
-                        data={this.props.articleList}
+                        data={articleList}
                         keyExtractor={this._keyExtractor}
                         renderItem={this._renderCard}
                         extraData={this.state}
@@ -130,21 +134,6 @@ class Home extends Component {
                         }}
                         style={{ flex: 1, backgroundColor: '#eee' }}
                     />
-
-                    <View style={styles.addMemoContainer}>
-                        <Button
-                            icon={
-                                <_Icon
-                                    name='pen'
-                                    size={28}
-                                    color='#FFEECC'
-                                />
-                            }
-                            title=''
-                            buttonStyle={styles.addMemo}
-                            onPress={() => { this.props.navigation.navigate('NewPost') }}
-                        />
-                    </View>
                 </View>
             </View>
 
@@ -153,34 +142,21 @@ class Home extends Component {
 }
 
 const styles = StyleSheet.create({
-    addMemoContainer: {
-        position: 'absolute',
-        width: 46,
-        height: 46,
-        bottom: 20,
-        right: 8,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    addMemo: {
-        width: 46,
-        height: 46,
-        borderRadius: 46,
-        shadowColor: '#333',
-        shadowRadius: 5,
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.5,
-        backgroundColor: 'tomato',
-        alignItems: 'center',
-        justifyContent: 'center'
+    button: {
+        width: 38,
+        shadowColor: '#000',
+        height: 38,
+        borderRadius: 3
     },
 });
 
 const mapStateToProps = state => {
-    const { article } = state;
+    const { article, auth } = state;
 
     return {
         articleList: article.articleList,
+        userId: auth.userId,
+        deleteArticleResult: article.deleteArticleResult
     };
 };
 
@@ -188,8 +164,9 @@ const mapDispatchToProps = dispatch => {
     const articleActions = bindActionCreators(articleCreators, dispatch);
 
     return {
-        getArticleList: articleActions.getArticleList
+        getArticleList: articleActions.getArticleList,
+        deleteArticle: articleActions.deleteArticle
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(MyArticles);

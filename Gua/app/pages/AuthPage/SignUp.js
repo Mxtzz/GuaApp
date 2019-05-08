@@ -40,6 +40,7 @@ class SignUp extends Component {
             username: '',
             password: '',
             password1: '',
+            nickname: '',
             rememberIsChecked: false,
             displayConfig: false,
             showClearButton: false
@@ -82,7 +83,7 @@ class SignUp extends Component {
     signUpOnClick = () => {
         this.refs.passwordInput.blur();
         this.refs.emailInput.blur();
-        this.props.signup(this.state.username, this.state.password);
+        this.props.signup(this.state.username, this.state.password, this.state.nickname);
     }
 
     userLogin = () => {
@@ -113,6 +114,23 @@ class SignUp extends Component {
                         <View style={styles.scroll}>
                             <View style={styles.logoContainer}>
                                 <Image source={require('../../img/header.png')} style={styles.logo} />
+                            </View>
+                            <View style={styles.textInputContainer}>
+                                <_Icon name='user' color='#ABD825' size={24} style={styles.loginIcon} />
+                                <TextInput
+                                    ref='emailInput'
+                                    placeholder='姓名'
+                                    style={styles.textInput}
+                                    underlineColorAndroid='transparent'
+                                    value={this.state.nickname}
+                                    autoCapitalize='none'
+                                    autoCorrect={false}
+                                    onChangeText={(text) => {
+                                        this.setState({
+                                            nickname: text
+                                        });
+                                    }}
+                                />
                             </View>
                             <View style={styles.textInputContainer}>
                                 <_Icon name='user' color='#ABD825' size={24} style={styles.loginIcon} />

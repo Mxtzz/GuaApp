@@ -30,7 +30,6 @@ export function* getArticleList() {
         articleList = results.rows;
     }
 
-
     yield put({
         type: types.RECEIVE_ARTICLE_LIST_RESULT,
         articleList: articleList
@@ -103,6 +102,37 @@ export function* createArticle({ title, content }) {
     yield put({
         type: types.RECEIVE_CREATE_ARTICLE_RESULT,
         createArticleResult: results.code == 200 ? true : false,
+    });
+
+    yield put({
+        type: types.HIDE_LOADING
+    });
+}
+
+export function* watchDeleteArticle(){
+    yield takeLatest(types.DELETE_ARTICLE, deleteArticle);
+}
+
+export function* deleteArticle({id}){
+    yield put({
+        type: types.SHOW_LOADING
+    });
+
+    let params = {}
+    let results = "";
+    let session = "";
+    try {
+        session = yield call(SessionUtil.get);
+        session = JSON.parse(session);
+        results = yield call(requstUtil.request, `${appSettings.GUA_API_URL()}article/delete?articleId=${id}`, 'delete', JSON.stringify(params), session.token);
+    } catch (error) {
+        results = { Message: JSON.stringify(error) };
+    }
+    console.log(results);
+
+    yield put({
+        type: types.DELETE_ARTICLE_RESULT,
+        deleteArticleResult: results.code == 200 ? true : false,
     });
 
     yield put({

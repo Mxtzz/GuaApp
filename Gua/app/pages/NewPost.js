@@ -66,14 +66,14 @@ class NewPost extends Component {
     render() {
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }} forceInset={{ bottom: 'never' }} >
-                <View style={styles.titleContainer}>
+                {/* <View style={styles.titleContainer}>
                     <TextInput
                         style={styles.title}
                         onChangeText={(text)=>{ this.setState({title: text}) }}
                         value={this.state.title}
                         placeholder='标题'
                     />
-                </View>
+                </View> */}
                 <View style={styles.inputContainer}>
                     <TextInput
                         style={styles.input}

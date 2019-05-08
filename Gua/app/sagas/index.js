@@ -7,7 +7,8 @@ import {
 import {
     watchGetArticleList,
     watchGetArticleById,
-    watchCreateArticle
+    watchCreateArticle,
+    watchDeleteArticle
 } from './article';
 
 import {
@@ -22,4 +23,5 @@ export default function* rootSaga() {
     yield fork(watchSignup);
     yield fork(watchCreateArticle);
     yield fork(watchGetMaterialList);
+    yield fork(watchDeleteArticle);
 }

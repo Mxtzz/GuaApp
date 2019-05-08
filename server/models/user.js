@@ -16,6 +16,11 @@ module.exports = (sequelize, dataTypes) => {
                 allowNull: false,
                 unique: true
             },
+            nickname: {
+                type: dataTypes.STRING(50),
+                allowNull: false,
+                unique: true
+            },
             password: {
                 type: dataTypes.STRING,
                 allowNull: false,
@@ -49,6 +54,7 @@ module.exports = (sequelize, dataTypes) => {
     User.associate = models => {
         User.hasMany(models.comment)
         User.hasMany(models.reply)
+        User.hasMany(models.club)
     }
 
     return User

@@ -1,5 +1,4 @@
 const router = require('koa-router')()
-const examplesRouter = require('./examples')
 const ArticleRouter = require('./article')
 const UserRouter = require('./user')
 const MaterialRouter = require('./material')
@@ -7,8 +6,8 @@ const TagController = require('../controllers/tag')
 const CategoryController = require('../controllers/category')
 const UserController = require('../controllers/user')
 const CommentController = require('../controllers/comment')
+const ClubController = require('../controllers/club')
 
-router.use('/examples', examplesRouter.routes())
 router.use('/article', ArticleRouter.routes())
 router.use('/user', UserRouter.routes())
 router.use('/material', MaterialRouter.routes())
@@ -30,6 +29,13 @@ router.get('/categories/getArticles', CategoryController.getArticlesByCate)
 router.delete('/comment/del', CommentController.del)
 router.delete('/reply/del', CommentController.del)
 router.get('/comment/getAboutComments', CommentController.getAboutComments)
+
+// 社团
+router.get('/club/getList', ClubController.getClubList)
+router.get('/club/getClubById', ClubController.getClubById)
+router.post('/club/create', ClubController.create)
+router.delete('/club/delete', ClubController.delete)
+router.post('/club/update', ClubController.update)
 
 router.get('/', async ctx => {
   ctx.body = 'hello koa2'

@@ -5,6 +5,7 @@ const {
     comment: CommentModel,
     reply: ReplyModel,
     user: UserModel,
+    club: ClubModel,
     sequelize
 } = require('../models')
 
@@ -105,7 +106,7 @@ module.exports = {
                     attributes: ['id'],
                     include: [{ model: ReplyModel, attributes: ['id'] }]
                 },
-                { model: UserModel, as: 'user', attributes: ['username'] }
+                { model: UserModel, as: 'user', attributes: ['username', 'nickname'] }
             ],
             offset,
             limit: pageSize,

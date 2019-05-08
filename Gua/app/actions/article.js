@@ -20,3 +20,10 @@ export function createArticle(title, content){
         content: content
     }
 }
+
+export function deleteArticle(id){
+    return {
+        type: types.DELETE_ARTICLE,
+        id: id
+    }
+}

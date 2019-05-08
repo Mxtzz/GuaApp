@@ -22,6 +22,11 @@ export default function reducer(state = defaultState, action) {
                 createArticleResult: {...action.createArticleResult}
             })
 
+        case types.DELETE_ARTICLE_RESULT:
+            return Object.assign({}, state, {
+                deleteArticleResult: {...action.deleteArticleResult}
+            })
+
         default:
             return state;
     }

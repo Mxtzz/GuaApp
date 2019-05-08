@@ -34,6 +34,10 @@ class User extends Component {
         // headerTintColor: '#FFEECC',
     };
 
+    myArticle = () => {
+        this.props.navigation.navigate('MyArticles');
+    }
+
     setting = () => {
         this.props.navigation.navigate('Setting');
     }
@@ -54,27 +58,24 @@ class User extends Component {
                         style={{ width: 80, height: 80, borderRadius: 40 }}
                         source={require('../../img/header.png')}
                     />
-                    <Text style={{ padding: 8, fontSize: 18, fontWeight: '600' }}>User</Text>
+                    <Text style={{ padding: 8, fontSize: 18, fontWeight: '600' }}>{`${this.props.auth.nickname}`}</Text>
                     <Text style={{ color: '#666' }}>这里本来可以显示签名</Text>
-                </View>
-                <View style={styles.userFriends}>
-                    <View style={styles.userFriendsBlock}>
-                        <Text style={{ textAlign: 'center' }}>瓜</Text>
-                        <Text style={{ textAlign: 'center', paddingTop: 8 }}>666</Text>
-                    </View>
-                    <View style={styles.userFriendsBlock}>
-                        <Text style={{ textAlign: 'center' }}>瓜</Text>
-                        <Text style={{ textAlign: 'center', paddingTop: 8 }}>666</Text>
-                    </View>
-                    <View style={styles.userFriendsBlock}>
-                        <Text style={{ textAlign: 'center' }}>瓜</Text>
-                        <Text style={{ textAlign: 'center', paddingTop: 8 }}>666</Text>
-                    </View>
                 </View>
                 <View style={styles.settings}>
                     <ListItem
+                        title="创建物品"
+                        onPress={this.myArticle}
+                        containerStyle={{ paddingVertical: 4, borderTopColor: '#ccc', borderTopWidth: 1, marginBottom: 6 }}
+                        rightIcon={<Icon
+                            name='chevron-small-right'
+                            type='entypo'
+                            size={width / 12}
+                            color='gray'
+                        />}
+                    />
+                    <ListItem
                         title="我的发帖"
-                        onPress={() => {this.setting()}}
+                        onPress={this.myArticle}
                         containerStyle={{ paddingVertical: 4, borderTopColor: '#ccc', borderTopWidth: 1 }}
                         // leftAvatar={{ source: { uri: item.avatar_url } }}
                         rightIcon={<Icon
@@ -167,7 +168,7 @@ const mapStateToProps = state => {
     const { auth } = state;
 
     return {
-        // auth: auth.
+        auth
     };
 };
 
@@ -176,6 +177,7 @@ const mapDispatchToProps = dispatch => {
 
     return {
         // createArticle: authActions.createArticle
+        // authActions
     };
 };
 

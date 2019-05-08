@@ -20,7 +20,7 @@
             "request": "launch",
             "platform": "ios",
             "sourceMaps": true,
-            "target": "iPhone X",
+            "target": "iPhone 8",
             "outDir": "${workspaceRoot}/.vscode/.react"
         }
     ]

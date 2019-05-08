@@ -30,7 +30,9 @@ export function* getInitData() {
         type: types.INIT_DATA_SUCCESSS,
         isLoggedIn: session.isLoggedIn,
         username: session.username,
-        auth: session.auth
+        auth: session.auth,
+        userId: session.userId,
+        nickname: session.nickname
     });
     
 
@@ -69,7 +71,9 @@ export function* login({ username, password }) {
             isLogin: true,
             username: results.username,
             token: results.token,
-            auth: results.auth
+            auth: results.auth,
+            userId: results.userId,
+            nickname: results.nickname
         }
         SessionUtil.set(session);
     }
@@ -78,7 +82,9 @@ export function* login({ username, password }) {
         type: types.RECEIVE_LOGIN_RESULT,
         signInMessage: results.code,
         username: results.username,
-        auth: results.auth
+        auth: results.auth,
+        userId: results.userId,
+        nickname: results.nickname
     });
 
     yield put({
@@ -90,14 +96,15 @@ export function* watchSignup() {
     yield takeLatest(types.SIGNUP, signup);
 }
 
-export function* signup({ username, password }) {
+export function* signup({ username, password, nickname }) {
     yield put({
         type: types.SHOW_LOADING
     });
 
     let data = {
         "username": username,
-        "password": password
+        "password": password,
+        "nickname": nickname
     }
 
     let results = {};
@@ -123,36 +130,6 @@ export function* signup({ username, password }) {
 
 export function* watchLogout() {
     yield takeLatest(types.LOGOUT, logout);
-}
-
-export function* signup({ username, password }) {
-    yield put({
-        type: types.SHOW_LOADING
-    });
-
-    let data = {
-        "username": username,
-        "password": password
-    }
-    
-    let results = {};
-    try {
-        results = yield call(requstUtil.request, `${appSettings.GUA_API_URL()}register`, 'post', JSON.stringify(data));
-    } catch (error) {
-        results = { Message: JSON.stringify(error) };
-    }
-
-    if(results.code == 200){
-        yield put({
-            type: types.RECEIVE_SIGNUP_RESULT,
-            isSignup: results.code,
-            signUpMessage: results.message
-        });
-    }
-
-    yield put({
-        type: types.HIDE_LOADING
-    });
 }
 
 // export function* watchLogout() {

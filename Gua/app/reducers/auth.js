@@ -3,7 +3,8 @@ import * as types from '../constants/ActionTypes';
 const defaultState = {
     isLoggedIn: false,
     username: '',
-    auth: ''
+    auth: '',
+    userId: ''
 };
 
 export default function reducer(state = defaultState, action) {
@@ -12,14 +13,18 @@ export default function reducer(state = defaultState, action) {
             return Object.assign({}, state, {
                 isLoggedIn: action.isLoggedIn,
                 username: action.username,
-                auth: action.auth
+                auth: action.auth,
+                userId: action.userId,
+                nickname: action.nickname
             });
 
         case types.RECEIVE_LOGIN_RESULT:
             return Object.assign({}, state, {
                 isLoggedIn: action.signInMessage == 200,
                 username: action.username,
-                auth: action.auth
+                auth: action.auth,
+                userId: action.userId,
+                nickname: action.nickname
             });
 
         case types.RECEIVE_SIGNUP_RESULT:

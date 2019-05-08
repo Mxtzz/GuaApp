@@ -4,7 +4,7 @@ const { createToken, checkAuth } = require('../lib/token')
 
 module.exports = {
     async register(ctx) {
-        const { username, password } = ctx.request.body
+        const { username, password, nickname } = ctx.request.body
         if (username && password) {
             const checkUser = await UserModel.findOne({ where: { username } })
             let response
@@ -12,7 +12,7 @@ module.exports = {
                 response = { code: 400, message: '用户名已被注册' }
             } else {
                 const saltPassword = await encrypt(password)
-                await UserModel.create({ username, password: saltPassword })
+                await UserModel.create({ username, password: saltPassword, nickname })
                 response = { code: 200, message: '注册成功' }
             }
             ctx.body = response
@@ -32,9 +32,9 @@ module.exports = {
             if (!isMatch) {
                 response = { code: 400, message: '密码不正确' }
             } else {
-                const { id, auth } = user
+                const { id, auth, nickname } = user
                 const token = createToken({ username, userId: id, auth }) // 生成 token
-                response = { code: 200, message: '登录成功', username, auth: user.auth, token }
+                response = { code: 200, message: '登录成功', username, auth: user.auth, userId: id, nickname: nickname, token }
             }
         }
         ctx.body = response
