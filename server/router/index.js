@@ -2,15 +2,18 @@ const router = require('koa-router')()
 const ArticleRouter = require('./article')
 const UserRouter = require('./user')
 const MaterialRouter = require('./material')
+const UserMaterialRouter = require('./usermaterial')
 const TagController = require('../controllers/tag')
 const CategoryController = require('../controllers/category')
 const UserController = require('../controllers/user')
 const CommentController = require('../controllers/comment')
 const ClubController = require('../controllers/club')
+const UserMaterialController = require('../controllers/userMaterial');
 
 router.use('/article', ArticleRouter.routes())
 router.use('/user', UserRouter.routes())
 router.use('/material', MaterialRouter.routes())
+router.use('/usermaterial', UserMaterialRouter.routes())
 
 // 登录注册
 router.post('/login', UserController.login)
@@ -25,10 +28,14 @@ router.get('/tags/getArticles', TagController.getArticlesByTag)
 router.get('/categories/getList', CategoryController.getCategories)
 router.get('/categories/getArticles', CategoryController.getArticlesByCate)
 
+router.post('/comment/create', CommentController.comment)
 // 删除评论
 router.delete('/comment/del', CommentController.del)
 router.delete('/reply/del', CommentController.del)
 router.get('/comment/getAboutComments', CommentController.getAboutComments)
+
+// user material
+router.post('/usermaterial/userMaterial', UserMaterialController.userMaterial)
 
 // 社团
 router.get('/club/getList', ClubController.getClubList)

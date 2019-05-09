@@ -16,7 +16,7 @@ const config = {
         },
         define: {
             timestamps: false, // 默认不加时间戳
-            freezeTableName: true // 表名默认不加 s
+            freezeTableName: true
         },
         timezone: '+08:00'
     }

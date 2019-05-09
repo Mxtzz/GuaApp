@@ -29,6 +29,8 @@ import MyNotifi from '../pages/HotPages/MyNotifi';
 import User from '../pages/UserPages/User';
 import Setting from '../pages/UserPages/Setting';
 import MyArticles from '../pages/UserPages/MyArticles';
+import Club from '../pages/UserPages/Club';
+import CreateMaterial from '../pages/Material/CreateMaterial';
 
 import Material from '../pages/Material/Material';
 import ReturnMt from '../pages/Material/ReturnMt';
@@ -157,6 +159,12 @@ const MainStack = createStackNavigator(
         },
         MyArticles: {
             screen: MyArticles
+        },
+        Club: {
+            screen: Club
+        },
+        CreateMaterial: {
+            screen: CreateMaterial
         }
     },
 )

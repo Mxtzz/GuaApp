@@ -51,8 +51,8 @@ class Home extends Component {
         }
     }
 
-    clickComment = () => {
-        console.log("click comment");
+    clickComment = (item) => {
+        this.props.navigation.navigate('Content', {mainContent: item, articleId: item.id});
     }
 
     clickCard = (item) => {
@@ -74,7 +74,7 @@ class Home extends Component {
         return(
             <View style={{ flex: 1, backgroundColor: '#fff', flexDirection: 'column', marginBottom: 8 }}>
                 <TouchableOpacity onPress={()=>{this.clickCard(item)}}>
-                <View style={{ flex: 1, flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#eee', padding: 8 }}>
+                <View style={{ flex: 1, flexDirection: 'row', padding: 8 }}>
                     <Image source={require('../../img/header.png')} style={{ height: 40, width: 40, borderRadius: 20, borderColor: '#eee', borderWidth: 1 }}/>
                     <View style={{ flex: 1, paddingLeft: 8 }}>
                         <Text style={{ fontSize: 14 }}>
@@ -91,8 +91,8 @@ class Home extends Component {
                     </Text>
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                    <View style={{flex: 1, borderRightWidth: 1, borderRightColor: '#eee'}}>
-                        <TouchableOpacity onPress={()=>{this.clickComment()}}>
+                    <View style={{flex: 1}}>
+                        <TouchableOpacity onPress={()=>{this.clickComment(item)}}>
                             <Text style={{ flex: 1, paddingVertical: 8, fontSize: 14, textAlign: 'center' }}>
                                 <_Icon name='bubble' size={14} color='#CCCCCC' />
                                 {` ${item.comments.length}`}
@@ -100,7 +100,7 @@ class Home extends Component {
                         </TouchableOpacity>
                     </View>
                     <View style={{flex: 1}}>
-                        <TouchableOpacity onPress={()=>{this.clickComment()}}>
+                        <TouchableOpacity onPress={()=>{this.clickComment(item)}}>
                             <Text style={{ flex: 1, paddingVertical: 8, fontSize: 14, textAlign: 'center' }}>
                                 <_Icon name='heart' size={14} color='#CCCCCC' />
                                 {` ${item.comments.length}`}

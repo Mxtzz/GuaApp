@@ -14,6 +14,10 @@ import {
     ListItem
 } from 'react-native-elements';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as articleCreators from '../../actions/article';
+
 import { createIconSetFromIcoMoon } from 'react-native-vector-icons';
 import icoMoonConfig from '../../../selection.json';
 const _Icon = createIconSetFromIcoMoon(icoMoonConfig);
@@ -33,6 +37,11 @@ class Notifications extends Component {
         // headerTintColor: '#FFEECC',
     };
 
+    componentWillMount() {
+        this.props.getArticleList();
+    }
+    
+
     pressMyNotifi = () => {
         this.props.navigation.navigate('Content');
     }
@@ -41,11 +50,13 @@ class Notifications extends Component {
         return (
             <View style={{ flex: 1, backgroundColor: '#fff', flexDirection: 'column', borderBottomColor: '#eee', borderBottomWidth: 1 }}>
                 <View>
-                    <TouchableOpacity onPress={this.pressMyNotifi}>
+                    {/* <TouchableOpacity onPress={this.pressMyNotifi}>
                         <Text style={{ height: 38 }}>我的消息</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     <ListItem
-                        badge={{ value: 3, textStyle: { color: 'orange' }, containerStyle: { marginTop: -20 } }}
+                        badge={{ value: 3, textStyle: { color: '#fff' }, containerStyle: { } }}
+                        title='我的消息'
+                        onPress={()=>{}}
                     />
                 </View>
             </View>
@@ -78,11 +89,19 @@ class Notifications extends Component {
     }
 
     render() {
+        let articleList = [];
+        if(this.props.articleList && this.props.articleList.length > 0){
+            this.props.articleList.map(item => {
+                if(item.user.auth == 1){
+                    articleList.push(item);
+                }
+            })
+        }
         return (
             <View style={{ flex: 1, backgroundColor: '#EEEEEE' }}>
 
                 <FlatList
-                    data={CommentData}
+                    data={articleList}
                     keyExtractor={this._keyExtractor}
                     renderItem={this._renderCommentCard}
                     extraData={this.state}
@@ -101,44 +120,21 @@ const styles = StyleSheet.create({
     
 });
 
+const mapStateToProps = state => {
+    const { article, auth } = state;
 
-const CommentData = [
-    {
-        id: 0,
-        headIconUrl: "",
-        name: "Gua Test 1",
-        content: "肥肠长的一段评论。",
-        commentCount: 80,
-        sendDate: "4月11日 22:00",
-        role: 2
-    },
-    {
-        id: 1,
-        headIconUrl: "",
-        name: "Gua Test 2",
-        content: "棒极了👍",
-        commentCount: "80",
-        sendDate: "4月11日 18:00",
-        role: 2
-    },
-    {
-        id: 2,
-        headIconUrl: "",
-        name: "Gua Admin",
-        content: "Make more Time.",
-        commentCount: 86,
-        sendDate: "4月10日 9:00",
-        role: 1
-    },
-    {
-        id: 2,
-        headIconUrl: "",
-        name: "Jack Ma",
-        content: "ListItems are used to display rows of information, such as a contact list, playlist, or menu. They are very customizeable and can contain switches, avatars, badges, icons, and more.",
-        commentCount: 86,
-        sendDate: "4月10日 9:00",
-        role: 1
-    }
-]
+    return {
+        articleList: article.articleList,
+        userId: auth.userId,
+    };
+};
 
-export default Notifications;
+const mapDispatchToProps = dispatch => {
+    const articleActions = bindActionCreators(articleCreators, dispatch);
+
+    return {
+        getArticleList: articleActions.getArticleList,
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Notifications);

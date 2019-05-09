@@ -139,3 +139,37 @@ export function* deleteArticle({id}){
         type: types.HIDE_LOADING
     });
 }
+
+export function* watchComment(){
+    yield takeLatest(types.COMMENT, comment);
+}
+
+export function* comment({articleId, content}){
+    yield put({
+        type: types.SHOW_LOADING
+    });
+
+    let params = {
+        articleId: articleId,
+        content: content
+    }
+    let results = "";
+    let session = "";
+    try {
+        session = yield call(SessionUtil.get);
+        session = JSON.parse(session);
+        results = yield call(requstUtil.request, `${appSettings.GUA_API_URL()}comment/create`, 'post', JSON.stringify(params), session.token);
+    } catch (error) {
+        results = { Message: JSON.stringify(error) };
+    }
+    console.log(results);
+
+    yield put({
+        type: types.COMMENT_RESULT,
+        commentResult: results.code == 200 ? true : false,
+    });
+
+    yield put({
+        type: types.HIDE_LOADING
+    });
+}

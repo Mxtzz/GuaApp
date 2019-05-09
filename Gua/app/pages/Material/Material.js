@@ -9,7 +9,8 @@ import {
     TouchableOpacity,
     Modal,
     TouchableWithoutFeedback,
-    TextInput
+    TextInput,
+    Alert
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -71,7 +72,15 @@ class Material extends Component {
     }
 
     Confirm = () => {
-
+        Alert.alert(
+            `申请成功！`,
+            '',
+            [
+                { text: '取消', onPress: () => {} },
+                { text: '返回', onPress: () => this.props.navigation.goBack()},
+            ],
+            { cancelable: false }      
+        )
     }
 
     _getMaterial = () => {

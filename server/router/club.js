@@ -1,11 +1,11 @@
 const Router = require('koa-router')
 const router = new Router()
-const MaterialController = require('../controllers/club')
+const ClubController = require('../controllers/club')
 
-router.post('/create', MaterialController.create)
-router.put('/update', MaterialController.update)
-router.get('/get/:id', MaterialController.getMaterialById)
-router.get('/getList', MaterialController.getMaterialList)
-router.delete('/delete', MaterialController.delete)
+router.post('/create', ClubController.create)
+router.put('/update', ClubController.update)
+router.get('/get/:id', ClubController.getClubById)
+router.get('/getList', ClubController.getClubList)
+router.delete('/delete', ClubController.delete)
 
 module.exports = router

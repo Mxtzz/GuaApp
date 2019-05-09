@@ -69,7 +69,9 @@ module.exports = {
             let { userId } = ctx.query
             userId = parseInt(userId)
             await sequelize.query(
-                `delete comment, reply from comment left join reply on comment.id=reply.commentId where comment.userId=${userId}`
+                `delete comment, reply from comment 
+                left join reply on comment.id=reply.commentId 
+                where comment.userId=${userId}`
             )
             await UserModel.destroy({ where: { id: userId } })
             ctx.body = { code: 200, message: '成功删除用户' }

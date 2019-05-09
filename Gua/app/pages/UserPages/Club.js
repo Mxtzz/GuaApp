@@ -9,15 +9,13 @@ import {
     TouchableOpacity,
     Modal,
     TouchableWithoutFeedback,
-    TextInput,
-    Alert
+    TextInput
 } from 'react-native';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as materialCreators from '../../actions/material';
+import * as clubCreators from '../../actions/club';
 
-import Calendar from '../../components/Calendar';
 import moment from 'moment';
 import { SafeAreaView } from 'react-navigation';
 import { CheckBox, Divider, Button } from 'react-native-elements';
@@ -28,23 +26,17 @@ import Loading from '../../components/Loading';
 const _Icon = createIconSetFromIcoMoon(icoMoonConfig);
 const { width, height } = Dimensions.get('window');
 
-class ReturnMt extends Component {
+class Club extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            startDate: moment(new Date()).add(-60, 'days').format('MM/DD/YYYY'),
-            endDate: '',
-            isEndDate: false,
-            selectedDate: null,
-            displayCalendar: false,
-            openBalancesOnly: false,
             refreshing: false,
             refreshTip: false
         }
     }
 
     static navigationOptions = {
-            headerTitle: '归还物资',
+            headerTitle: '加入社团',
             headerBackTitle: '取消',
             headerRightContainerStyle: {
                 paddingRight: 10,
@@ -59,12 +51,12 @@ class ReturnMt extends Component {
     };
 
     componentWillMount() {
-        this.props.getMaterialList();
+        this.props.getClubList();
     }
     
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.materialList && this.state.refreshing == true) {
+        if (nextProps.clubList && this.state.refreshing == true) {
             this.setState({
                 refreshing: false
             });
@@ -72,66 +64,18 @@ class ReturnMt extends Component {
     }
 
     Confirm = () => {
-        Alert.alert(
-            `归还成功！`,
-            '',
-            [
-                { text: '取消', onPress: () => {} },
-                { text: '返回', onPress: () => this.props.navigation.goBack()},
-            ],
-            { cancelable: false }      
-        )
+
     }
 
-    _getMaterial = () => {
+    _getClub = () => {
         this.setState({
             refreshing: true,
             refreshTip: false
         });
-        this.props.getMaterialList();
+        this.props.getClubList();
     }
 
-    openCalendar = (isEndDate) => {
-        if (isEndDate) {
-            this.setState({
-                isEndDate: isEndDate,
-                displayCalendar: true,
-                selectedDate: this.state.endDate != '' ? moment(new Date(this.state.endDate.replace(/-/g, '/'))).format('YYYY-MM-DD') : null
-            });
-        } else {
-            this.setState({
-                isEndDate: isEndDate,
-                displayCalendar: true,
-                selectedDate: this.state.startDate != '' ? moment(new Date(this.state.startDate.replace(/-/g, '/'))).format('YYYY-MM-DD') : null
-            });
-        }
-    }
-
-    onClickOpenBalance = () => {
-        // test code
-        // this._refreshARAccounts(this.props.customerID);
-        this.setState({
-            openBalancesOnly: !this.state.openBalancesOnly,
-            startDate: this.state.openBalancesOnly ? moment(new Date()).add(-60, 'days').format('MM/DD/YYYY') : '',
-            endDate: ''
-        });
-    }
-
-    onDayPress = (day) => {
-        if (this.state.isEndDate) {
-            this.setState({
-                displayCalendar: false,
-                endDate: moment(new Date(day.dateString.replace(/-/g, '/'))).format('MM/DD/YYYY')
-            });
-        } else {
-            this.setState({
-                displayCalendar: false,
-                startDate: moment(new Date(day.dateString.replace(/-/g, '/'))).format('MM/DD/YYYY')
-            });
-        }
-    }
-
-    renderMaterial = ({ item, index }) => {
+    renderClub = ({ item, index }) => {
         return (
             <TouchableOpacity
                 key={`T${index.toString()}`}
@@ -148,7 +92,7 @@ class ReturnMt extends Component {
                         checked={item.Checked}
                         onPress={() => {}}
                     />
-                    <Text style={{ textAlign: 'right', lineHeight: 20 }}>{`${item.count} 可用`}</Text>
+                    {/* <Text style={{ textAlign: 'right', lineHeight: 20 }}>{`${item.count} 可用`}</Text> */}
                 </View>
                 
                 <Text key={`T2${index.toString()}`}>
@@ -163,21 +107,21 @@ class ReturnMt extends Component {
             <SafeAreaView style={{ flex: 1, backgroundColor: '#eee' }} forceInset={{ bottom: 'never' }} >
                     <View style={{ margin: 5, flex: 1 }}>
                         <View style={{ borderTopLeftRadius: 8, borderTopRightRadius: 8, backgroundColor: '#b2cb36', flexDirection: 'row', padding: 8 }}>
-                            <_Icon name='file-text' size={20} style={{ marginHorizontal: 8, color: '#fff' }} />
-                            <Text style={{ fontSize: 16, color: '#fff' }}>选择物品</Text>
+                            <_Icon name='users' size={20} style={{ marginHorizontal: 8, color: '#fff' }} />
+                            <Text style={{ fontSize: 16, color: '#fff' }}>选择社团</Text>
                         </View>
                         <Loading />
-                        {this.props.materialList == null || this.props.materialList.length == 0 ?
+                        {this.props.clubList == null || this.props.clubList.length == 0 ?
                             <View style={[styles.selectMaterial, { alignItems: 'center', justifyContent: 'center' }]}>
-                                <Text style={{ color: '#aaa' }}>没有可归还的物品。 </Text>
+                                <Text style={{ color: '#aaa' }}>没有可以加入的社团。</Text>
                             </View>
                             :
                             <FlatList
                                 refreshing={this.state.refreshing}
-                                onRefresh={this._getMaterial}
+                                onRefresh={this._getClub}
                                 keyExtractor={(item, index) => index.toString()}
-                                data={this.props.materialList}
-                                renderItem={this.renderMaterial}
+                                data={this.props.clubList}
+                                renderItem={this.renderClub}
                                 style={styles.selectMaterial}
                                 ItemSeparatorComponent={() => {
                                     return <Divider style={{ backgroundColor: '#dedede', height: 1 }} />
@@ -186,7 +130,6 @@ class ReturnMt extends Component {
                         }
                     </View>
 
-                    
                     <View style={{ borderRadius: 8, margin: 10, padding: 16, backgroundColor: '#fff' }}>
                         <TextInput
                             style={styles.reason}
@@ -194,7 +137,7 @@ class ReturnMt extends Component {
                             numberOfLines={3}
                             onChangeText={(text)=>{ this.setState({title: text}) }}
                             value={this.state.title}
-                            placeholder='反馈'
+                            placeholder='备注'
                         />
                     </View>
 
@@ -243,19 +186,19 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-    const { material } = state;
+    const { club } = state;
 
     return {
-        materialList: material.materialList,
+        clubList: club.clubList,
     };
 };
 
 const mapDispatchToProps = dispatch => {
-    const materialActions = bindActionCreators(materialCreators, dispatch);
+    const clubActions = bindActionCreators(clubCreators, dispatch);
 
     return {
-        getMaterialList: materialActions.getMaterialList
+        getClubList: clubActions.getClubList
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReturnMt);
+export default connect(mapStateToProps, mapDispatchToProps)(Club);

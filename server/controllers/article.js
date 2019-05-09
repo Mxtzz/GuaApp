@@ -64,9 +64,9 @@ module.exports = {
                         {
                             model: ReplyModel,
                             attributes: ['id', 'userId', 'content', 'createdAt'],
-                            include: [{ model: UserModel, as: 'user', attributes: ['username'] }]
+                            include: [{ model: UserModel, as: 'user', attributes: ['username', 'nickname'] }]
                         },
-                        { model: UserModel, as: 'user', attributes: ['username'] }
+                        { model: UserModel, as: 'user', attributes: ['username', 'nickname'] }
                     ]
                 }
             ],
@@ -106,7 +106,7 @@ module.exports = {
                     attributes: ['id'],
                     include: [{ model: ReplyModel, attributes: ['id'] }]
                 },
-                { model: UserModel, as: 'user', attributes: ['username', 'nickname'] }
+                { model: UserModel, as: 'user', attributes: ['username', 'nickname', 'auth'] }
             ],
             offset,
             limit: pageSize,

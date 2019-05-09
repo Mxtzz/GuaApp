@@ -46,15 +46,21 @@ class Content extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.articleById && this.props.articleById != nextProps.articleById) {
             // console.log(nextProps.articleList)
+
+        }
+        if(nextProps.commentResult && nextProps.commentResult != this.props.commentResult){
+            this.setState({ isCommentModalDisplay: false, comment: '' });
+            this.props.getArticleById(this.state.articleId);
         }
     }
 
-    saveComment = () => {
-        this.setState({isCommentModalDisplay: false});
+    saveComment = (id) => {
+        // this.setState({ isCommentModalDisplay: false });
+        this.props.comment(id, this.state.comment);
     }
 
     clickComment = () => {
-        this.setState({isCommentModalDisplay: true});
+        this.setState({ isCommentModalDisplay: true });
     }
 
     _keyExtractor = (item, index) => item.id;
@@ -66,7 +72,7 @@ class Content extends Component {
                     <Image source={require('../../img/header.png')} style={{ height: 40, width: 40, borderRadius: 20, borderColor: '#eee', borderWidth: 1 }} />
                     <View style={{ flex: 1, paddingLeft: 8 }}>
                         <Text style={{ fontSize: 16 }}>
-                            {this.state.mainContent.user ? this.state.mainContent.user.username : "游客"}
+                            {this.state.mainContent.user ? this.state.mainContent.user.nickname : "游客"}
                         </Text>
                         <Text style={{ fontSize: 12, color: '#aaa' }}>
                             {this.state.mainContent.createdAt}
@@ -107,8 +113,8 @@ class Content extends Component {
                 <View style={{ flex: 1, flexDirection: 'column' }}>
                     <View style={{ flex: 1, flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#eee', padding: 8 }}>
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 16 }}>
-                                {item.user ? item.user.nickname : ""}
+                            <Text style={{ fontSize: 14, color: '#666' }}>
+                                {item.user ? item.user.nickname : "游客"}
                             </Text>
                             <Text style={{ fontSize: 12, color: '#aaa' }}>
                                 {item.createdAt}
@@ -145,7 +151,7 @@ class Content extends Component {
                     onPress={() => { this.clickComment() }}
                 />
 
-                <Modal visible={this.state.isCommentModalDisplay} transparent={true} onRequestClose={() => { this.setState({isCommentModalDisplay: false}) }}>
+                <Modal visible={this.state.isCommentModalDisplay} transparent={true} onRequestClose={() => { this.setState({ isCommentModalDisplay: false }) }}>
                     <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.8)', justifyContent: 'center', alignItems: 'center' }}>
                         <View style={{ backgroundColor: '#fff', borderRadius: 12, height: height / 2.2, width: width - 40, maxWidth: 360, overflow: 'hidden' }}>
                             <View style={{ backgroundColor: '#FF7C4D', padding: 6 }}>
@@ -158,10 +164,10 @@ class Content extends Component {
                                 </View>
                                 <View style={{ flex: 1, marginVertical: 8 }}>
                                     <TextInput
-                                        style={{padding: 8}}
+                                        style={{ padding: 8 }}
                                         multiline={true}
                                         numberOfLines={10}
-                                        onChangeText={(text)=>{ this.setState({comment: text}) }}
+                                        onChangeText={(text) => { this.setState({ comment: text }) }}
                                         value={this.state.comment}
                                         placeholder='评论...'
                                     />
@@ -169,12 +175,12 @@ class Content extends Component {
                             </View>
                             <View style={{ flexDirection: 'row', backgroundColor: '#fff' }}>
                                 <View style={{ flex: 1, backgroundColor: '#FF7C4D', marginRight: 1 }}>
-                                    <TouchableOpacity onPress={() => this.setState({isCommentModalDisplay: false})}>
+                                    <TouchableOpacity onPress={() => this.setState({ isCommentModalDisplay: false })}>
                                         <Text style={{ textAlign: 'center', fontSize: 20, color: '#fff', paddingVertical: 10 }}>取消</Text>
                                     </TouchableOpacity>
                                 </View>
                                 <View style={{ flex: 1, backgroundColor: '#FF7C4D' }}>
-                                    <TouchableOpacity onPress={this.saveComment}>
+                                    <TouchableOpacity onPress={()=>this.saveComment(this.state.articleId)}>
                                         <Text style={{ textAlign: 'center', fontSize: 20, color: '#fff', paddingVertical: 10 }}>确定</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -193,50 +199,12 @@ const styles = StyleSheet.create({
 
 });
 
-const CommentData = [
-    {
-        id: 0,
-        headIconUrl: "",
-        name: "Gua Test 1",
-        content: "肥肠长的一段评论。",
-        commentCount: 80,
-        sendDate: "4月11日 22:00",
-        role: 2
-    },
-    {
-        id: 1,
-        headIconUrl: "",
-        name: "Gua Test 2",
-        content: "棒极了👍",
-        commentCount: "80",
-        sendDate: "4月11日 18:00",
-        role: 2
-    },
-    {
-        id: 2,
-        headIconUrl: "",
-        name: "Gua Admin",
-        content: "Make more Time.",
-        commentCount: 86,
-        sendDate: "4月10日 9:00",
-        role: 1
-    },
-    {
-        id: 2,
-        headIconUrl: "",
-        name: "Jack Ma",
-        content: "ListItems are used to display rows of information, such as a contact list, playlist, or menu. They are very customizeable and can contain switches, avatars, badges, icons, and more.",
-        commentCount: 86,
-        sendDate: "4月10日 9:00",
-        role: 1
-    }
-]
-
 const mapStateToProps = state => {
     const { article } = state;
 
     return {
         articleById: article.articleById,
+        commentResult: article.commentResult
     };
 };
 
@@ -244,7 +212,8 @@ const mapDispatchToProps = dispatch => {
     const articleActions = bindActionCreators(articleCreators, dispatch);
 
     return {
-        getArticleById: articleActions.getArticleById
+        getArticleById: articleActions.getArticleById,
+        comment: articleActions.comment
     };
 };
 

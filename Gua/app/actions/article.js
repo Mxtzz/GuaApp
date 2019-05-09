@@ -27,3 +27,11 @@ export function deleteArticle(id){
         id: id
     }
 }
+
+export function comment(articleId, content){
+    return {
+        type: types.COMMENT,
+        articleId: articleId,
+        content: content
+    }
+}

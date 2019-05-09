@@ -34,6 +34,14 @@ class User extends Component {
         // headerTintColor: '#FFEECC',
     };
 
+    joinClub = () => {
+        this.props.navigation.navigate('Club');
+    }
+
+    createMaterial = () => {
+        this.props.navigation.navigate('CreateMaterial');
+    }
+
     myArticle = () => {
         this.props.navigation.navigate('MyArticles');
     }
@@ -63,8 +71,8 @@ class User extends Component {
                 </View>
                 <View style={styles.settings}>
                     <ListItem
-                        title="创建物品"
-                        onPress={this.myArticle}
+                        title="加入社团"
+                        onPress={this.joinClub}
                         containerStyle={{ paddingVertical: 4, borderTopColor: '#ccc', borderTopWidth: 1, marginBottom: 6 }}
                         rightIcon={<Icon
                             name='chevron-small-right'
@@ -73,6 +81,20 @@ class User extends Component {
                             color='gray'
                         />}
                     />
+                    {this.props.auth.auth == 1 ?
+                    <ListItem
+                        title="创建物品"
+                        onPress={this.createMaterial}
+                        containerStyle={{ paddingVertical: 4, borderTopColor: '#ccc', borderTopWidth: 1, marginBottom: 6 }}
+                        rightIcon={<Icon
+                            name='chevron-small-right'
+                            type='entypo'
+                            size={width / 12}
+                            color='gray'
+                        />}
+                    />
+                    : null }
+
                     <ListItem
                         title="我的发帖"
                         onPress={this.myArticle}
@@ -129,6 +151,9 @@ class User extends Component {
 }
 
 const styles = StyleSheet.create({
+    settings: {
+        // backgroundColor: '#eee'
+    },
     addMemo: {
         // position:'absolute',
         width: 46,
